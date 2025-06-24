@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Watr.Exchange.Business.Core\Watr.Exchange.Business.Core.csproj" />
+    <ProjectReference Include="..\Watr.Exchange.Core\Watr.Exchange.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,79 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager NavMan
+<PageTitle>The Watr Exchange - A Marketplace for the Environment</PageTitle>
+@* TODO: support theme and manage its state manually in localstorage *@
+<MudThemeProvider Theme="@_theme" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<MudBreakpointProvider />
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
+                       OnClick="@((e) => DrawerToggle())" />
+        <MudText Typo="Typo.h5" Class="ml-3">
+            <MudIcon Icon="@Icons.Material.Filled.WaterDrop" Class="mr-2" />
+            <MudText Inline="true" Typo="Typo.h5" Class="logo-text">Watr</MudText>
+            <MudText Inline="true" Typo="Typo.h5" Class="secondary-logo-text" Color="Color.Primary">Exchange</MudText>
+        </MudText>
+        <MudSpacer />
+        <LoginDisplay />
+    </MudAppBar>
+
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+        <NavMenu />
+    </MudDrawer>
+
+    <MudMainContent Class="main-content">
+
+        @Body
+
+    </MudMainContent>
+</MudLayout>
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+@code {
+    private MudTheme? _theme = null;
+    private bool _drawerOpen = true;
+    protected override void OnInitialized()
+    {
+        _theme = LightGlassTheme;
+        base.OnInitialized();
+    }
+
+    private void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+    public static MudTheme LightGlassTheme = new MudTheme()
+    {
+        PaletteLight = new PaletteLight()
+        {
+            Primary = "#4361ee",             // var(--primary)
+            PrimaryDarken = "#3a56d4",       // var(--primary-dark)
+            Secondary = "#3f37c9",           // var(--secondary)
+            Tertiary = "#4895ef",            // var(--accent)
+            Dark = "#2b2d42",                // var(--dark)
+            TextPrimary = "#2b2d42",
+            Background = "#f8f9fa",          // var(--light)
+            Surface = "rgba(255,255,255,1)", // var(--glass)
+            AppbarBackground = "rgba(255,255,255,0.8)",
+            DrawerBackground = "rgba(255,255,255,0.15)",
+            AppbarText = "#2b2d42",
+            DrawerText = "#2b2d42",
+            Success = "#4cc9f0",             // var(--success)
+            Warning = "#f72585",             // var(--warning)
+            Error = "#ef233c",               // var(--danger)
+            Info = "#4895ef"                 // using accent for info
+        },
+        LayoutProperties = new LayoutProperties()
+        {
+            DefaultBorderRadius = "8px",
+            DrawerWidthLeft = "280px"
+        }
+    };
+}

@@ -1,0 +1,40 @@
+﻿@page "/{*any}"
+@layout MainLayout           
+@implements IDisposable
+@inject IScreen HostScreen
+
+<div>
+  @if (_current is MainViewModel mvm)
+  {
+        <MainPage ViewModel="mvm" />
+    }
+    else if(_current is NotFoundViewModel nvm)
+    {
+        <NotFound ViewModel="nvm"/>
+    }
+    else
+    {
+        <h1>Something is Broken</h1>
+    }
+</div>
+
+@code {
+  private IRoutableViewModel? _current;
+  private IDisposable? _sub;
+    [Parameter]
+    public string? any { get; set; }
+  protected override void OnInitialized()
+  {
+    _sub = HostScreen
+      .Router
+      .CurrentViewModel
+      .ObserveOn(RxApp.MainThreadScheduler)
+      .Subscribe(vm =>
+      {
+        _current = vm;
+        InvokeAsync(StateHasChanged);
+      });
+  }
+
+  public void Dispose() => _sub?.Dispose();
+}

@@ -1,0 +1,41 @@
+﻿@inject IServiceProvider ServiceProvider
+@inject IScreen HostScreen
+
+<Router AppAssembly="@typeof(Program).Assembly"
+        OnNavigateAsync="OnNavigateAsync">
+    <Found Context="routeData">
+        <AuthorizeRouteView RouteData="routeData"
+                            DefaultLayout="@typeof(MainLayout)" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p>Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+
+@code {
+    
+    private async Task OnNavigateAsync(Microsoft.AspNetCore.Components.Routing.NavigationContext args)
+    {
+        var segments = (args.Path ?? "")
+                    .Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+        // 2) choose the right VM
+        IRoutableViewModel vm = segments switch
+        {
+            [] => ServiceProvider.GetRequiredService<MainViewModel>(),
+            [var first] when first == "main" => ServiceProvider.GetRequiredService<MainViewModel>(),
+            _ => ServiceProvider.GetRequiredService<NotFoundViewModel>()
+        };
+
+        // 3) swap in the new VM (clearing the back-stack)
+        // 4) await FirstAsync so Blazor waits for navigation to “complete”
+        await HostScreen.Router
+                    .NavigateAndReset
+                    .Execute(vm)
+                    .FirstAsync();
+    }
+    
+}

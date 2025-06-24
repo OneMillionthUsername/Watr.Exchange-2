@@ -1,0 +1,20 @@
+﻿@inherits ReactiveComponentBase<MainViewModel>
+
+@if(ViewModel != null)
+{
+    <AlertView Alert="ViewModel.Alert"/>
+    <h1>Main Page</h1>
+    @if (ViewModel.IsLoggedIn)
+    {
+        <h3>@ViewModel.UserName</h3>
+        <MudButton Color="Color.Warning" OnClick="ViewModel.Logout.BindCommand<MouseEventArgs>()">Logout</MudButton>
+    }
+    else
+    {
+        <MudButton Color="Color.Primary" OnClick="ViewModel.Login.BindCommand<MouseEventArgs>()">Login</MudButton>
+    }
+}
+
+@code {
+
+}

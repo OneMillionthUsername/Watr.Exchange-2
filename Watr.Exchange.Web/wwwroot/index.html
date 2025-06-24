@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Watr Exchange</title>
+    <base href="/" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- Important: Increment the version parameter whenever you update MudBlazor to prevent caching issues -->
+    <link rel="stylesheet" href="css/styles.css" />
+    <link href="_content/MudBlazor/MudBlazor.min.css?v=1" rel="stylesheet" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="Watr.Exchange.Web.styles.css" rel="stylesheet" />
+    <link href="manifest.webmanifest" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <style>
+        @* PDF canvas of Home Resume Samples *@ .mud-carousel canvas {
+            width: 100%;
+        }
+
+        @* PDF Toolbar at home(Index.razor) .home-pdfviewer-container > div > div:first-child {
+            display: none !important;
+        }
+
+        *@
+        @* PDF Canvas Container *@
+        .home-pdfviewer-container > div > div:nth-child(2) {
+            padding: 0 !important;
+        }
+
+        canvas.explore_area {
+            float: left;
+            height: 550px;
+            width: 100%;
+        }
+
+        @* Bootstrap-like extension *@ .text-nowrap {
+            text-wrap: nowrap;
+        }
+
+        .fw-semi-bold {
+            font-weight: 500;
+        }
+
+        .fw-bold {
+            font-weight: 600;
+        }
+
+        .rounded-mxl {
+            border-radius: 16px;
+        }
+
+        @* Corresponds to .mud-typography-xxx, but only font-size *@ .fs-h1 {
+            font-size: 6rem !important;
+        }
+
+        .fs-h2 {
+            font-size: 3.75rem !important;
+        }
+
+        .fs-h3 {
+            font-size: 3rem !important;
+        }
+
+        .fs-h4 {
+            font-size: 2.125rem !important;
+        }
+
+        .fs-h5 {
+            font-size: 1.5rem !important;
+        }
+
+        .fs-h6 {
+            font-size: 1.25rem !important;
+        }
+
+        .fs-body1 {
+            font-size: 1rem !important;
+        }
+
+        .fs-body2 {
+            font-size: .875rem !important;
+        }
+
+        @* Smaller font-sizes *@ .fs-body3 {
+            font-size: .625rem !important;
+        }
+
+        .fs-body4 {
+            font-size: .5rem !important;
+        }
+
+        @* MudBlazor(8.2.0) Extension/Complement NOTE: revisit here for any upgrade of MudBlazor *@ .mux-popover-fixed {
+            position: fixed !important;
+            top: unset !important;
+        }
+
+        .mux-popover-left-unset {
+            left: unset !important;
+        }
+
+        .mux-popover-right-zero {
+            right: 0;
+        }
+
+        .mux-popover-right-m10p {
+            right: -10%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+    <script src="_content/Microsoft.Authentication.WebAssembly.Msal/AuthenticationService.js"></script>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+
+</body>
+
+</html>
