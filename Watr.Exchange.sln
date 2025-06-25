@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Watr.Exchange.Security.Core
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Watr.Exchange.Security", "Watr.Exchange.Security\Watr.Exchange.Security.csproj", "{D58D4047-3F32-44D4-AB04-9DBEF1436AD7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Watr.Exchange.Security.Blazor", "Watr.Exchange.Security.Blazor\Watr.Exchange.Security.Blazor.csproj", "{1B5DDCF9-943F-42F0-BBA0-FF2E1EE7A42B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,7 @@ Global
 		{99CAA1E2-CC36-4ADB-AA1B-09BE7C2F4671}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2D81D701-8865-4BDB-8145-8FDEA8518E9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2D81D701-8865-4BDB-8145-8FDEA8518E9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D81D701-8865-4BDB-8145-8FDEA8518E9E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{2D81D701-8865-4BDB-8145-8FDEA8518E9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D81D701-8865-4BDB-8145-8FDEA8518E9E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C7BA6C23-BC26-4169-ABBB-53CA5A19C3DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -123,6 +126,10 @@ Global
 		{D58D4047-3F32-44D4-AB04-9DBEF1436AD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D58D4047-3F32-44D4-AB04-9DBEF1436AD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D58D4047-3F32-44D4-AB04-9DBEF1436AD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B5DDCF9-943F-42F0-BBA0-FF2E1EE7A42B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B5DDCF9-943F-42F0-BBA0-FF2E1EE7A42B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B5DDCF9-943F-42F0-BBA0-FF2E1EE7A42B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B5DDCF9-943F-42F0-BBA0-FF2E1EE7A42B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -146,6 +153,7 @@ Global
 		{2D81D701-8865-4BDB-8145-8FDEA8518E9E} = {FA018DE0-7E23-40B0-BE58-57D4BC897188}
 		{C7BA6C23-BC26-4169-ABBB-53CA5A19C3DE} = {1E2A86F6-E651-406F-8001-1F78C32DB406}
 		{D58D4047-3F32-44D4-AB04-9DBEF1436AD7} = {1E2A86F6-E651-406F-8001-1F78C32DB406}
+		{1B5DDCF9-943F-42F0-BBA0-FF2E1EE7A42B} = {1E2A86F6-E651-406F-8001-1F78C32DB406}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F71BDA19-5EB3-4CBA-9AFA-22B0C8E02C52}

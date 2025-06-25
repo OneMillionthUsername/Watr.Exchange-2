@@ -82,7 +82,7 @@ namespace Watr.Exchange.Client.MAUI
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
-            builder.Services.AddSingleton<ISecurityProvider, SecurityProvider>();
+            builder.Services.AddScoped<ISecurityProvider, SecurityProvider>();
             builder.Services.AddSingleton<IViewForResolver, ViewForResolver>();
             builder.Services.AddSingleton<IScreen, AppHostViewModel>();
             builder.Services.AddScoped<MainViewModel>();

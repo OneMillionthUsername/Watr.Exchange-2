@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,11 +21,22 @@ namespace Watr.Exchange.Security
             PublicClientApplication = publicClientApplication;
             Logger = logger;
             SignUpSignInPolicy = config["SignUpSignInPolicyId"] ?? throw new ArgumentNullException("SignUpSignInPolicyId is not configured in appsettings.json or environment variables.");
+            _ = Init();
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private async Task Init()
+        {
+            var acct = (await PublicClientApplication.GetAccountsAsync(SignUpSignInPolicy)).FirstOrDefault();
+            IsAuthenticated = acct != null;
+            UserName = acct?.Username;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAuthenticated)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserName)));
         }
         public bool IsAuthenticated { get; protected set; }
 
         public string? UserName { get; protected set; }
-
         public async Task<string?> GetAccessToken(string[] scopes, CancellationToken token = default)
         {
             try

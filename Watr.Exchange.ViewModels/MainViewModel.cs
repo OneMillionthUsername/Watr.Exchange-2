@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using System.Reactive.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using DynamicData.Binding;
+using System.Reactive.Disposables;
 namespace Watr.Exchange.ViewModels
 {
     public class MainViewModel : ReactiveObject, IRoutableViewModel
@@ -34,6 +36,7 @@ namespace Watr.Exchange.ViewModels
         public ReactiveCommand<Unit, Unit> Logout { get; }
         protected ILogger Logger { get; }
         protected string[] Scopes { get; }
+        private readonly CompositeDisposable disposables = new CompositeDisposable();
         public MainViewModel(IScreen screen, ISecurityProvider security,
             ILogger<MainViewModel> logger, IConfiguration config)
         {
@@ -45,6 +48,15 @@ namespace Watr.Exchange.ViewModels
             Login = ReactiveCommand.CreateFromTask(DoLogin);
             Logout = ReactiveCommand.CreateFromTask(DoLogout);
             Scopes = config.GetSection("Scopes")?.Get<string[]>() ?? throw new InvalidDataException();
+            SecurityProvider.WhenPropertyChanged(p => p.IsAuthenticated).Subscribe(p =>
+            {
+                IsLoggedIn = p.Sender.IsAuthenticated;
+                UserName = p.Sender.UserName;
+            }).DisposeWith(disposables);
+        }
+        ~MainViewModel()
+        {
+            disposables.Dispose();
         }
         protected async Task DoLogin(CancellationToken token)
         {
@@ -52,7 +64,7 @@ namespace Watr.Exchange.ViewModels
             {
                 IsLoggedIn = SecurityProvider.IsAuthenticated;
                 if (IsLoggedIn)
-                    await SecurityProvider.Logout(token);
+                    return;
                 await SecurityProvider.Login(Scopes, token: token);
                 IsLoggedIn = SecurityProvider.IsAuthenticated;
             }
@@ -88,14 +100,16 @@ namespace Watr.Exchange.ViewModels
     {
         public RoutingState Router { get; } = new();
         protected ILogger Logger { get; }
-        public AppHostViewModel(ILogger<MainViewModel> mainLogger, 
-            ILogger<AppHostViewModel> hostLogger, ISecurityProvider provider, 
-            IConfiguration config)
+        public AppHostViewModel(IServiceProvider serviceProvider, 
+            ILogger<AppHostViewModel> hostLogger, IConfiguration config)
         {
             Logger = hostLogger;
             try
             {
-                Router.Navigate.Execute(new MainViewModel(this, provider, mainLogger, config)).Subscribe();
+                var scope = serviceProvider.CreateScope().ServiceProvider;
+                Router.Navigate.Execute(new MainViewModel(this,
+                    scope.GetRequiredService<ISecurityProvider>()
+                    , scope.GetRequiredService<ILogger<MainViewModel>>(), config)).Subscribe();
             }
             catch(Exception ex)
             {

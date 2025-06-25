@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Identity.Client;
 using MudBlazor.Services;
 using ReactiveUI;
-using Watr.Exchange.Security;
+using Watr.Exchange.Security.Blazor;
 using Watr.Exchange.Security.Core;
 using Watr.Exchange.ViewModels;
 using Watr.Exchange.Web;
@@ -25,16 +24,7 @@ builder.Services.AddMsalAuthentication(options =>
     options.ProviderOptions.Authentication.ClientId = builder.Configuration["AzureAD:ClientId"];
     options.ProviderOptions.Authentication.ValidateAuthority = false;
 });
-builder.Services.AddSingleton<ISecurityProvider, SecurityProvider>();
-builder.Services.AddSingleton(provider =>
-{
-    
-    var client = PublicClientApplicationBuilder.Create(builder.Configuration["AzureAD:ClientId"])
-                .WithB2CAuthority(builder.Configuration["AzureAD:Authority"])
-                            .WithRedirectUri(builder.Configuration["AzureAD:ClientAppCallBack"]) // needed only for the system browser
-                .Build();
-    return client;
-});
+builder.Services.AddScoped<ISecurityProvider, SecurityProvider>();
 builder.Services.AddSingleton<IScreen, AppHostViewModel>();
 builder.Services.AddTransient<MainViewModel>();
 builder.Services.AddTransient<AlertView.AlertViewModel>();
