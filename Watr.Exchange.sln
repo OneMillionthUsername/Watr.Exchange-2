@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Watr.Exchange.Security", "W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Watr.Exchange.Security.Blazor", "Watr.Exchange.Security.Blazor\Watr.Exchange.Security.Blazor.csproj", "{1B5DDCF9-943F-42F0-BBA0-FF2E1EE7A42B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Watr.Exchange.Mapping.Core", "Watr.Exchange.Mapping.Core\Watr.Exchange.Mapping.Core.csproj", "{5FAA663F-73B1-4680-913F-4343FF168679}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,6 +132,10 @@ Global
 		{1B5DDCF9-943F-42F0-BBA0-FF2E1EE7A42B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B5DDCF9-943F-42F0-BBA0-FF2E1EE7A42B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B5DDCF9-943F-42F0-BBA0-FF2E1EE7A42B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FAA663F-73B1-4680-913F-4343FF168679}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FAA663F-73B1-4680-913F-4343FF168679}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FAA663F-73B1-4680-913F-4343FF168679}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FAA663F-73B1-4680-913F-4343FF168679}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -154,6 +160,7 @@ Global
 		{C7BA6C23-BC26-4169-ABBB-53CA5A19C3DE} = {1E2A86F6-E651-406F-8001-1F78C32DB406}
 		{D58D4047-3F32-44D4-AB04-9DBEF1436AD7} = {1E2A86F6-E651-406F-8001-1F78C32DB406}
 		{1B5DDCF9-943F-42F0-BBA0-FF2E1EE7A42B} = {1E2A86F6-E651-406F-8001-1F78C32DB406}
+		{5FAA663F-73B1-4680-913F-4343FF168679} = {AABE964A-A2B2-487E-93F8-3DCFCBAF0AC3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F71BDA19-5EB3-4CBA-9AFA-22B0C8E02C52}

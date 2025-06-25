@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ExRam.Gremlinq.Core" Version="12.23.0" />
+    <PackageReference Include="ExRam.Gremlinq.Support.NewtonsoftJson" Version="12.23.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Watr.Exchange.Core\Watr.Exchange.Core.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Data.Core\Watr.Exchange.Data.Core.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Data.Queries.Core\Watr.Exchange.Data.Queries.Core.csproj" />
