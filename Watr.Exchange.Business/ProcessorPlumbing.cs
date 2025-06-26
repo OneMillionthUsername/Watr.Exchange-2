@@ -158,4 +158,29 @@ namespace Watr.Exchange.Business
 
         public virtual IDeleteActivity<TDeleteDTO, TKey, TObject> DeleteRaw => DeleteProc.DeleteRaw;
     }
+    public class CRUDProcessorProxy<TCreateActivity, TReadActivity, TUpdateActivity, TDeleteActivity,
+        TCreateDTO, TReadDTO, TUpdateDTO, TDeleteDTO, TKey, TObject> :
+        CRUDProcessorProxy<CreateProcessor<TCreateActivity, TCreateDTO, TReadDTO, TKey, TObject>,
+            ReadProcessor<TReadActivity, TReadDTO, TKey, TObject>,
+            UpdateProcessor<TUpdateActivity, TUpdateDTO, TReadDTO, TKey, TObject>,
+            DeleteProcessor<TDeleteActivity, TDeleteDTO, TKey, TObject>,
+        TCreateActivity, TReadActivity, TUpdateActivity, TDeleteActivity,
+        TCreateDTO, TReadDTO, TUpdateDTO, TDeleteDTO, TKey, TObject>
+        ICRUDProcessor<TCreateActivity, TReadActivity, TUpdateActivity, TDeleteActivity,
+            TCreateDTO, TReadDTO, TUpdateDTO, TDeleteDTO, TKey, TObject>, IConcrete
+        where TCreateActivity : ICreateActivity<TCreateDTO, TReadDTO, TKey, TObject>
+        where TReadActivity : IReadActivity<TReadDTO, TKey, TObject>
+        where TUpdateActivity : IUpdateActivity<TUpdateDTO, TReadDTO, TKey, TObject>
+        where TDeleteActivity : IDeleteActivity<TDeleteDTO, TKey, TObject>
+        where TKey : IEquatable<TKey>
+        where TObject : IObject
+        where TCreateDTO : ICreateDTO, TObject
+        where TReadDTO : IReadDTO<TKey>, TObject
+        where TUpdateDTO : IUpdateDTO<TKey>, TObject
+        where TDeleteDTO : IDeleteDTO<TKey>
+    {
+        public CRUDProcessorProxy(ILogger logger, CreateProcessor<TCreateActivity, TCreateDTO, TReadDTO, TKey, TObject> createProc, ReadProcessor<TReadActivity, TReadDTO, TKey, TObject> readProc, UpdateProcessor<TUpdateActivity, TUpdateDTO, TReadDTO, TKey, TObject> updateProc, DeleteProcessor<TDeleteActivity, TDeleteDTO, TKey, TObject> deleteProc) : base(logger, createProc, readProc, updateProc, deleteProc)
+        {
+        }
+    }
 }
