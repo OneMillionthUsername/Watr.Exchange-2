@@ -227,18 +227,18 @@ namespace Watr.Exchange.Business
         {
         }
 
-        public async Task Delete(TKey key, bool hardDrop = false, CancellationToken token = default)
+        public async Task Delete(TDeleteDTO dto, bool hardDrop = false, CancellationToken token = default)
         {
             try
             {
                 if (hardDrop)
                 {
-                    var cmd = CreateHardDeleteCommand(key);
+                    var cmd = CreateHardDeleteCommand(dto.Id);
                     await Mediator.Send(cmd, token);
                 }
                 else
                 {
-                    var cmd = CreateDeleteCommand(key);
+                    var cmd = CreateDeleteCommand(dto.Id);
                     await Mediator.Send(cmd, token);
                 }
             }
@@ -282,7 +282,6 @@ namespace Watr.Exchange.Business
             return Guid.Parse(key);
         }
     }
-
     public abstract class ReadActivity<TReadDTO, TKey, TObject, TVertex, TCountQuery, TReadQuery, TReadAllQuery> : 
         QueryActivity<TKey, TObject, TVertex, TCountQuery>,
         IReadActivity<TReadDTO, TKey, TObject>

@@ -56,7 +56,7 @@ namespace Watr.Exchange.Business.Core
         where TObject : IObject
         where TDeleteDTO : IDeleteDTO<TKey>
     {
-        Task Delete(TKey key, bool hardDrop = false, CancellationToken token = default);
+        Task Delete(TDeleteDTO dto, bool hardDrop = false, CancellationToken token = default);
     }
     public interface IReadActivity<TReadDTO, TKey, TObject> : IQueryActivity<TKey, TObject>
         where TKey : IEquatable<TKey>
