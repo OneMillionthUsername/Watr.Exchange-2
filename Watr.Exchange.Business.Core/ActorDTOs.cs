@@ -111,14 +111,14 @@ namespace Watr.Exchange.Business
     }
 
 
-    public class UpdateActorDTO : UpdateDTO<Guid>, IActor
+    public abstract class UpdateActorDTO : UpdateDTO<Guid>, IActor
     {
         public string Name { get; set; } = null!;
         public string EmailAddress { get; set; } = null!;
 
-        public virtual ActorTypes Type { get; set; }
+        public abstract ActorTypes Type { get; }
 
-        public virtual ActorStereotype Stereotype { get; set; }
+        public abstract ActorStereotype Stereotype { get; }
     }
     public class UpdateAdminDTO : UpdateActorDTO, IAdmin
     {
@@ -129,18 +129,18 @@ namespace Watr.Exchange.Business
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
     }
-    public class UpdateExpertDTO : UpdateActorDTO
+    public abstract class UpdateExpertDTO : UpdateActorDTO
     {
         public override ActorTypes Type => ActorTypes.Expert;
-        public virtual ExpertTypes ExpertType { get; set; }
+        public abstract ExpertTypes ExpertType { get; }
     }
-    public class UpdateIndividualExpertDTO : UpdateExpertDTO, IIndividualActor
+    public abstract class UpdateIndividualExpertDTO : UpdateExpertDTO, IIndividualActor
     {
         public override ActorStereotype Stereotype => ActorStereotype.Individual;
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
     }
-    public class UpdateExpertGroupDTO : UpdateExpertDTO, IGroupActor
+    public abstract class UpdateExpertGroupDTO : UpdateExpertDTO, IGroupActor
     {
         public override ActorStereotype Stereotype => ActorStereotype.Group;
     }
@@ -161,17 +161,17 @@ namespace Watr.Exchange.Business
         public override ExpertTypes ExpertType => ExpertTypes.Independent;
     }
 
-    public class UpdatePatronDTO : UpdateActorDTO, IPatron
+    public abstract class UpdatePatronDTO : UpdateActorDTO, IPatron
     {
         public override ActorTypes Type => ActorTypes.Patron;
 
-        public virtual PatronTypes PatronType { get; set; }
+        public abstract PatronTypes PatronType { get; }
     }
-    public class UpdateGroupPatronDTO : UpdatePatronDTO, IGroupActor
+    public abstract class UpdateGroupPatronDTO : UpdatePatronDTO, IGroupActor
     {
         public override ActorStereotype Stereotype => ActorStereotype.Group;
     }
-    public class UpdateIndividualPatronDTO : UpdatePatronDTO, IIndividualActor
+    public abstract class UpdateIndividualPatronDTO : UpdatePatronDTO, IIndividualActor
     {
         public override ActorStereotype Stereotype => ActorStereotype.Individual;
         public string FirstName { get; set; } = null!;
