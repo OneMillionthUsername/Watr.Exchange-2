@@ -29,8 +29,8 @@ namespace Watr.Exchange.Data.Core
         string EdgeName { get; }
     }
     public interface IEdge<TFrom, TTo> : IEdge
-        where TFrom : IVertex, new()
-        where TTo : IVertex, new()
+        where TFrom : IVertex
+        where TTo : IVertex
     {
         [JsonIgnore]
         TFrom From { get; set; }
@@ -38,15 +38,15 @@ namespace Watr.Exchange.Data.Core
     public interface ISingleEdge : IEdge { }
     public interface IMultiEdge : IEdge { }
     public interface ISingleEdge<TFrom, TTo> : ISingleEdge, IEdge<TFrom, TTo>
-        where TFrom : IVertex, new()
-        where TTo : IVertex, new()
+        where TFrom : IVertex
+        where TTo : IVertex
     {
         [JsonIgnore]
         TTo? To { get; set; }
     }
     public interface IMultiEdge<TFrom, TTo> : IMultiEdge, IEdge<TFrom, TTo>
-        where TFrom : IVertex, new()
-        where TTo : IVertex, new()
+        where TFrom : IVertex
+        where TTo : IVertex
     {
         [JsonIgnore]
         ICollection<TTo> To { get; set; }
@@ -84,20 +84,20 @@ namespace Watr.Exchange.Data.Core
         }
     }
     public abstract class Edge<TFrom, TTo> : Edge, IEdge<TFrom, TTo>
-        where TFrom : IVertex, new()
-        where TTo : IVertex, new()
+        where TFrom : IVertex
+        where TTo : IVertex
     {
-        public required TFrom From { get; set; }
+        public TFrom From { get; set; } = default!;
     }
     public abstract class SingleEdge<TFrom, TTo> : Edge<TFrom, TTo>, ISingleEdge<TFrom, TTo>
-        where TFrom : IVertex, new()
-        where TTo : IVertex, new()
+        where TFrom : IVertex
+        where TTo : IVertex
     {
         public TTo? To { get; set; }
     }
     public abstract class MultiEdge<TFrom, TTo> : Edge<TFrom, TTo>, IMultiEdge<TFrom, TTo>
-        where TFrom : IVertex, new()
-        where TTo : IVertex, new()
+        where TFrom : IVertex
+        where TTo : IVertex
     {
         public virtual ICollection<TTo> To { get; set; } = [];
     }

@@ -10,20 +10,23 @@ namespace Watr.Exchange.Core
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum ActorTypes
     {
+        Unknown,
         Admin,
         Expert,
         Patron,
-        Community
+        //Community
     }
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum ExpertTypes
     {
+        Unknown,
         Staff,
         Independent
     }
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum PatronTypes
     {
+        Unknown,
         Investor,
         Government,
         Corporation
@@ -31,11 +34,13 @@ namespace Watr.Exchange.Core
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum InvestorType
     {
+        Unknown,
         Accredited,
         Unaccredited,
     }
     public enum ActorStereotype
     {
+        Unknown,
         Individual,
         Group
     }
