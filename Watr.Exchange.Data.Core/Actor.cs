@@ -8,7 +8,6 @@ using Watr.Exchange.Core;
 
 namespace Watr.Exchange.Data.Core
 {
-    
     public abstract class Actor : Vertex, IActor
     {
         public string Name { get; set; } = null!;

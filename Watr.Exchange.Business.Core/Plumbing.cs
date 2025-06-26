@@ -21,7 +21,7 @@ namespace Watr.Exchange.Business.Core
         TKey Id { get; set; }
     }
     public interface IReadDTO<TKey> : IDTO
-    where TKey : IEquatable<TKey>
+        where TKey : IEquatable<TKey>
     {
         TKey Id { get; set; }
         DateTime CreateDate { get; set; }

@@ -10,6 +10,8 @@ namespace Watr.Exchange.Core
     {
         string Name { get; set; }
         string EmailAddress { get; set; }
+        ActorTypes Type { get; }
+        ActorStereotype Stereotype { get; }
     }
     public interface IIndividualActor : IActor
     {
