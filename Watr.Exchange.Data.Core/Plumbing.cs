@@ -54,6 +54,7 @@ namespace Watr.Exchange.Data.Core
 
     public abstract class GraphObject : IGraphObject
     {
+
         public string Id { get; set; } = null!;
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
@@ -62,6 +63,7 @@ namespace Watr.Exchange.Data.Core
         public string? ETag { get; set; }
         public int? TimeToLive { get; set; }
         public bool IsDeleted { get; set; }
+        
     }
 
     public abstract class Vertex : GraphObject, IVertex

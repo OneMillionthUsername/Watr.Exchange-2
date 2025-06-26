@@ -1,0 +1,41 @@
+﻿using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
+using Watr.Exchange.Data.Core;
+
+namespace Watr.Exchange.Data.Queries.Core
+{
+    public abstract class GetVertexById<TVertex> : IRequest<TVertex?>
+        where TVertex: IVertex
+    {
+        public string Id { get; }
+        public GetVertexById(string id)
+        {
+            Id = id;
+        }
+    }
+    public abstract class GetVertexes<TVertex> : IStreamRequest<TVertex>
+        where TVertex : IVertex
+    {
+        public Pager? Pager { get; }
+        public Expression<Func<TVertex, bool>>? Filter { get; }
+        public Expression<Func<IQueryable<TVertex>, IOrderedQueryable<TVertex>>>? OrderBy { get; }
+        public GetVertexes(Pager? pager = null, Expression<Func<TVertex, bool>>? filter = null, 
+            Expression<Func<IQueryable<TVertex>, IOrderedQueryable<TVertex>>>? orderBy = null)
+        {
+            Pager = pager;
+            Filter = filter;
+            OrderBy = orderBy;
+        }
+    }
+    public struct Pager
+    {
+        public int Size { get; init; }
+        public int Page { get; init; }
+    }
+
+}
