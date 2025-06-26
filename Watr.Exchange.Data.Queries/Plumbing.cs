@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Watr.Exchange.Data.Core;
 using Watr.Exchange.Data.Queries.Core;
+using Watr.Exchange.Core;
 
 namespace Watr.Exchange.Data.Queries
 {

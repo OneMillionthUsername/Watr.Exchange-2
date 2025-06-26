@@ -1,8 +1,11 @@
-﻿using System;
+﻿using ExRam.Gremlinq.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Watr.Exchange.Core;
 
 namespace Watr.Exchange.Business.Core
 {
@@ -50,4 +53,6 @@ namespace Watr.Exchange.Business.Core
         public Guid? CreatedByUserId { get; set; }
         public Guid? UpdatedByUserId { get; set; }
     }
+    
+    
 }

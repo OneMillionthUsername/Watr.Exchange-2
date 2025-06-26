@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Watr.Exchange.Core
 {
-    public interface IActor
+    
+    public interface IActor : IObject
     {
         string Name { get; set; }
         string EmailAddress { get; set; }
     }
-    public interface IActorSpecification
+    
+    public interface IActorSpecification : ISpecification
     {
         ActorTypes Type { get; }
         ActorStereotype Stereotype { get; }

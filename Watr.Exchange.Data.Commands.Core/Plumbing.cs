@@ -8,7 +8,7 @@ using Watr.Exchange.Data.Core;
 
 namespace Watr.Exchange.Data.Commands.Core
 {
-    public abstract class CreateVertex<TVertex> : IRequest<Unit>
+    public abstract class CreateVertex<TVertex> : IRequest<string>
         where TVertex : IVertex, new()
     {
         public TVertex Vertex { get; }
@@ -32,6 +32,12 @@ namespace Watr.Exchange.Data.Commands.Core
         public DeleteVertex(string id)
         {
             Id = id;
+        }
+    }
+    public class HardDeleteVertex : DeleteVertex
+    {
+        public HardDeleteVertex(string id) : base(id)
+        {
         }
     }
 }

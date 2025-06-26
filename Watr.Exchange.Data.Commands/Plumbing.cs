@@ -55,7 +55,7 @@ namespace Watr.Exchange.Data.Commands
             }
         }
     }
-    public abstract class CreateCommandHandler<TCommand, TVertex> : IRequestHandler<TCommand, Unit>
+    public abstract class CreateCommandHandler<TCommand, TVertex> : IRequestHandler<TCommand, string>
         where TVertex : IVertex, IConcrete, new()
         where TCommand : CreateVertex<TVertex>
     {
@@ -66,12 +66,12 @@ namespace Watr.Exchange.Data.Commands
             G = q;
             Logger = logger;
         }
-        public virtual async Task<Unit> Handle(TCommand request, CancellationToken cancellationToken)
+        public virtual async Task<string> Handle(TCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                await G.AddV(request.Vertex).FirstAsync(cancellationToken);
-                return Unit.Value;
+                var d = await G.AddV(request.Vertex).FirstAsync(cancellationToken);
+                return d.Id;
             }
             catch(Exception ex)
             {
@@ -127,6 +127,27 @@ namespace Watr.Exchange.Data.Commands
             {
                 await G.V(request.Id).OfType<Vertex>().
                     Property(p => p.IsDeleted, true).FirstAsync(cancellationToken);
+                return Unit.Value;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+    }
+    public class HardDeleteCommandHandler<TCommand> : DeleteCommandHandler<TCommand>
+        where TCommand: HardDeleteVertex
+    {
+        public HardDeleteCommandHandler(IGremlinQuerySource q, ILogger<TCommand> logger) : base(q, logger)
+        {
+        }
+
+        public override async Task<Unit> Handle(TCommand request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                await G.V(request.Id).Drop().FirstAsync(cancellationToken);
                 return Unit.Value;
             }
             catch (Exception ex)

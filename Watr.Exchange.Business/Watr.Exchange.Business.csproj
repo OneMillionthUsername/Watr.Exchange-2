@@ -7,11 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Watr.Exchange.Business.Core\Watr.Exchange.Business.Core.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Core\Watr.Exchange.Core.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Data.Commands.Core\Watr.Exchange.Data.Commands.Core.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Data.Core\Watr.Exchange.Data.Core.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Data.Queries.Core\Watr.Exchange.Data.Queries.Core.csproj" />
+    <ProjectReference Include="..\Watr.Exchange.Mapping.Core\Watr.Exchange.Mapping.Core.csproj" />
   </ItemGroup>
 
 </Project>

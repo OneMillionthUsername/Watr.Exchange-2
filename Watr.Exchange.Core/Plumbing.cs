@@ -18,4 +18,14 @@ namespace Watr.Exchange.Core
     {
         public const string Ignore = IgnoredValues.STRING____IGNORE___VALUE;
     }
+    public interface IObject
+    {
+
+    }
+    public interface ISpecification : IObject { }
+    public struct Pager
+    {
+        public int Size { get; init; }
+        public int Page { get; init; }
+    }
 }

@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Watr.Exchange.Data.Core;
+using Watr.Exchange.Core;
 
 namespace Watr.Exchange.Data.Queries.Core
 {
@@ -41,10 +42,6 @@ namespace Watr.Exchange.Data.Queries.Core
             Query = query;
         }
     }
-    public struct Pager
-    {
-        public int Size { get; init; }
-        public int Page { get; init; }
-    }
+    
 
 }
