@@ -14,6 +14,102 @@ using Watr.Exchange.Data.Queries.Core;
 
 namespace Watr.Exchange.Data.Queries
 {
+    public class GetVertexByIdHandler<TQuery, TVertex> : IRequestHandler<TQuery, TVertex?>
+        where TVertex : IVertex
+        where TQuery : GetVertexById<TVertex>
+    {
+        protected IGremlinQuerySource G { get; }
+        protected ILogger Logger { get; }
+        public GetVertexByIdHandler(IGremlinQuerySource g, ILogger<TQuery> logger)
+        {
+            G = g;
+            Logger = logger;
+        }
+        public virtual async Task<TVertex?> Handle(TQuery request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await G.V(request.Id).OfType<TVertex>().FirstOrDefaultAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+    }
+
+    public class GetVertexesHandler<TQuery, TVertex> : IStreamRequestHandler<TQuery, TVertex>
+        where TVertex : IVertex
+        where TQuery : GetVertexes<TVertex>
+    {
+        protected IGremlinQuerySource G { get; }
+        protected ILogger Logger { get; }
+        public GetVertexesHandler(IGremlinQuerySource g, ILogger<GetVertexesHandler<TQuery, TVertex>> logger)
+        {
+            G = g;
+            Logger = logger;
+        }
+        public IAsyncEnumerable<TVertex> Handle(TQuery request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var query = G.V<TVertex>();
+                if (request.Filter != null)
+                    query = query.Where(request.Filter);
+                if (request.OrderBy != null)
+                    query = query.Order(builder => builder.ApplyOrder(request.OrderBy));
+                if (request.Pager != null)
+                {
+                    var pager = request.Pager.Value;
+                    int skip = pager.Size * (pager.Page - 1);
+                    query = query.Skip(skip).Limit(pager.Size);
+                }
+                return query.ToAsyncEnumerable();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+    }
+    public class GetQueryPageCountHandler<TQuery, TVertex> : IRequestHandler<TQuery, long>
+        where TVertex: IVertex
+        where TQuery: GetQueryPageCount<TVertex>
+    {
+        protected IGremlinQuerySource G { get; }
+        protected ILogger Logger { get; }
+        public GetQueryPageCountHandler(IGremlinQuerySource g, ILogger<TQuery> logger)
+        {
+            G = g;
+            Logger = logger;
+        }
+
+        public async Task<long> Handle(TQuery request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var query = G.V<TVertex>();
+                if (request.Query.Filter != null)
+                    query = query.Where(request.Query.Filter);
+                if (request.Query.OrderBy != null)
+                    query = query.Order(builder => builder.ApplyOrder(request.Query.OrderBy));
+                if (request.Query.Pager != null)
+                {
+                    var pager = request.Query.Pager.Value;
+                    int skip = pager.Size * (pager.Page - 1);
+                    query = query.Skip(skip).Limit(pager.Size);
+                }
+                return await query.Count().FirstAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+    }
     internal static class OrderExpressionConverter
     {
         /// <summary>
@@ -98,63 +194,5 @@ namespace Watr.Exchange.Data.Queries
             }
         }
     }
-    public abstract class GetVertexByIdHandler<TQuery, TVertex> : IRequestHandler<TQuery, TVertex?>
-        where TVertex : IVertex
-        where TQuery : GetVertexById<TVertex>
-    {
-        protected IGremlinQuerySource G { get; }
-        protected ILogger Logger { get; }
-        public GetVertexByIdHandler(IGremlinQuerySource g, ILogger<TQuery> logger)
-        {
-            G = g;
-            Logger = logger;
-        }
-        public virtual async Task<TVertex?> Handle(TQuery request, CancellationToken cancellationToken)
-        {
-            try
-            {
-                return await G.V(request.Id).OfType<TVertex>().FirstOrDefaultAsync(cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, ex.Message);
-                throw;
-            }
-        }
-    }
-    public abstract class GetVertexesHandler<TQuery, TVertex> : IStreamRequestHandler<TQuery, TVertex>
-        where TVertex : IVertex
-        where TQuery : GetVertexes<TVertex>
-    {
-        protected IGremlinQuerySource G { get; }
-        protected ILogger Logger { get; }
-        public GetVertexesHandler(IGremlinQuerySource g, ILogger<GetVertexesHandler<TQuery, TVertex>> logger)
-        {
-            G = g;
-            Logger = logger;
-        }
-        public IAsyncEnumerable<TVertex> Handle(TQuery request, CancellationToken cancellationToken)
-        {
-            try
-            {
-                var query = G.V<TVertex>();
-                if (request.Filter != null)
-                    query = query.Where(request.Filter);
-                if (request.OrderBy != null)
-                    query = query.Order(builder => builder.ApplyOrder(request.OrderBy));
-                if (request.Pager != null)
-                {
-                    var pager = request.Pager.Value;
-                    int skip = pager.Size * (pager.Page - 1);
-                    query = query.Skip(skip).Limit(pager.Size);
-                }
-                return query.ToAsyncEnumerable();
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, ex.Message);
-                throw;
-            }
-        }
-    }
+    
 }

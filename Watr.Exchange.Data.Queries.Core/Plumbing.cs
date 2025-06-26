@@ -9,7 +9,7 @@ using Watr.Exchange.Data.Core;
 
 namespace Watr.Exchange.Data.Queries.Core
 {
-    public abstract class GetVertexById<TVertex> : IRequest<TVertex?>
+    public class GetVertexById<TVertex> : IRequest<TVertex?>
         where TVertex: IVertex
     {
         public string Id { get; }
@@ -18,7 +18,7 @@ namespace Watr.Exchange.Data.Queries.Core
             Id = id;
         }
     }
-    public abstract class GetVertexes<TVertex> : IStreamRequest<TVertex>
+    public class GetVertexes<TVertex> : IStreamRequest<TVertex>
         where TVertex : IVertex
     {
         public Pager? Pager { get; }
@@ -30,6 +30,15 @@ namespace Watr.Exchange.Data.Queries.Core
             Pager = pager;
             Filter = filter;
             OrderBy = orderBy;
+        }
+    }
+    public class GetQueryPageCount<TVertex> : IRequest<long>
+        where TVertex : IVertex
+    {
+        public GetVertexes<TVertex> Query { get; }
+        public GetQueryPageCount(GetVertexes<TVertex> query)
+        {
+            Query = query;
         }
     }
     public struct Pager

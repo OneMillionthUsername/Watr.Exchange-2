@@ -11,10 +11,10 @@ namespace Watr.Exchange.Data.Core
     
     public abstract class Actor : Vertex, IActor
     {
-        public required string Name { get; set; }
+        public string Name { get; set; } = null!;
         public abstract ActorTypes Type { get; }
         public abstract ActorStereotype Stereotype { get; }
-        public required string EmailAddress { get; set; }
+        public string EmailAddress { get; set; } = null!;
     }
     public class Admin : Actor, IAdmin
     {
@@ -22,8 +22,8 @@ namespace Watr.Exchange.Data.Core
 
         public override ActorStereotype Stereotype => ActorStereotype.Individual;
 
-        public required string FirstName { get; set; }
-        public required string LastName { get; set; }
+        public  string FirstName { get; set; } = null!;
+        public  string LastName { get; set; } = null!;
     }
     public abstract class Expert : Actor
     {
@@ -33,8 +33,8 @@ namespace Watr.Exchange.Data.Core
     public abstract class IndividualExpert : Expert, IIndividualActor
     {
         public override ActorStereotype Stereotype => ActorStereotype.Individual;
-        public required string FirstName { get; set; }
-        public required string LastName { get; set; }
+        public  string FirstName { get; set; } = null!;
+        public  string LastName { get; set; } = null!;
     }
     public abstract class ExpertGroup : Expert, IGroupActor
     {
@@ -70,8 +70,8 @@ namespace Watr.Exchange.Data.Core
     public abstract class IndividualPatron : Patron, IIndividualActor
     {
         public override ActorStereotype Stereotype => ActorStereotype.Individual;
-        public required string FirstName { get; set; }
-        public required string LastName { get; set; }
+        public  string FirstName { get; set; } = null!;
+        public  string LastName { get; set; } = null!;
     }
     public abstract class IndividualInvestor : IndividualPatron, IInvestor
     {
