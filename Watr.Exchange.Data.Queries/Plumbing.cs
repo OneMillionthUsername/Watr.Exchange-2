@@ -1,5 +1,6 @@
 ﻿using ExRam.Gremlinq.Core;
 using Gremlin.Net.Process.Traversal;
+using Gremlin.Net.Structure;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Remotion.Linq.Clauses;
@@ -38,7 +39,26 @@ namespace Watr.Exchange.Data.Queries
             }
         }
     }
+    internal static class Extensions
+    {
+        public static IVertexGremlinQuery<TVertex> BuildBaseQuery<TVertex>(this IVertexGremlinQuery<TVertex> query, Pager? pager = null, Expression<Func<TVertex, bool>>? filter = null,
+            Expression<Func<IQueryable<TVertex>, IOrderedQueryable<TVertex>>>? orderBy = null)
+            where TVertex : IVertex
+        {
+            if (filter != null)
+                query = query.Where(filter);
+            if (orderBy != null)
+                query = query.Order(builder => builder.ApplyOrder(orderBy));
+            if (pager != null)
+            {
+                var p = pager.Value;
+                int skip = p.Size * (p.Page - 1);
+                query = query.Skip(skip).Limit(p.Size);
+            }
+            return query;
+        }
 
+    }
     public class GetVertexesHandler<TQuery, TVertex> : IStreamRequestHandler<TQuery, TVertex>
         where TVertex : IVertex
         where TQuery : GetVertexes<TVertex>
@@ -54,17 +74,7 @@ namespace Watr.Exchange.Data.Queries
         {
             try
             {
-                var query = G.V<TVertex>();
-                if (request.Filter != null)
-                    query = query.Where(request.Filter);
-                if (request.OrderBy != null)
-                    query = query.Order(builder => builder.ApplyOrder(request.OrderBy));
-                if (request.Pager != null)
-                {
-                    var pager = request.Pager.Value;
-                    int skip = pager.Size * (pager.Page - 1);
-                    query = query.Skip(skip).Limit(pager.Size);
-                }
+                var query = G.V<TVertex>().BuildBaseQuery(request.Pager, request.Filter, request.OrderBy);
                 return query.ToAsyncEnumerable();
             }
             catch (Exception ex)
@@ -90,17 +100,7 @@ namespace Watr.Exchange.Data.Queries
         {
             try
             {
-                var query = G.V<TVertex>();
-                if (request.Query.Filter != null)
-                    query = query.Where(request.Query.Filter);
-                if (request.Query.OrderBy != null)
-                    query = query.Order(builder => builder.ApplyOrder(request.Query.OrderBy));
-                if (request.Query.Pager != null)
-                {
-                    var pager = request.Query.Pager.Value;
-                    int skip = pager.Size * (pager.Page - 1);
-                    query = query.Skip(skip).Limit(pager.Size);
-                }
+                var query = G.V<TVertex>().BuildBaseQuery(filter: request.Query.Filter);
                 return await query.Count().FirstAsync(cancellationToken);
             }
             catch (Exception ex)
