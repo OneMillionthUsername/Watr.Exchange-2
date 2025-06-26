@@ -9,7 +9,7 @@ using Watr.Exchange.Core;
 
 namespace Watr.Exchange.Business.Core
 {
-    public interface IDTO { }
+    public interface IDTO : IObject { }
     public interface ICreateDTO : IDTO { }
 
     public interface IUpdateDTO<TKey> : IDTO

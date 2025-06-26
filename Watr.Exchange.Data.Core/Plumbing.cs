@@ -5,10 +5,11 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Watr.Exchange.Core;
 
 namespace Watr.Exchange.Data.Core
 {
-    public interface IGraphObject
+    public interface IGraphObject : IObject
     {
         string Id { get; set; }
         DateTime CreateDate { get; set; }

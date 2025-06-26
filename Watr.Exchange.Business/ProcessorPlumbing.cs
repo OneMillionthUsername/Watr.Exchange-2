@@ -165,7 +165,7 @@ namespace Watr.Exchange.Business
             UpdateProcessor<TUpdateActivity, TUpdateDTO, TReadDTO, TKey, TObject>,
             DeleteProcessor<TDeleteActivity, TDeleteDTO, TKey, TObject>,
         TCreateActivity, TReadActivity, TUpdateActivity, TDeleteActivity,
-        TCreateDTO, TReadDTO, TUpdateDTO, TDeleteDTO, TKey, TObject>
+        TCreateDTO, TReadDTO, TUpdateDTO, TDeleteDTO, TKey, TObject>,
         ICRUDProcessor<TCreateActivity, TReadActivity, TUpdateActivity, TDeleteActivity,
             TCreateDTO, TReadDTO, TUpdateDTO, TDeleteDTO, TKey, TObject>, IConcrete
         where TCreateActivity : ICreateActivity<TCreateDTO, TReadDTO, TKey, TObject>
