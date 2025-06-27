@@ -19,39 +19,31 @@ namespace Watr.Exchange.Data.Commands
 {
     internal static class Extensions
     {
-        private static ConcurrentDictionary<string, PropertyInfo[]> PropertyMap = new ConcurrentDictionary<string, PropertyInfo[]>();
-        public static void NullifySentinelValues<TVertex>(this TVertex vertex, string sentinel = StringIgnore.Ignore)
-            where TVertex: IVertex
+        /// <summary>
+        /// Iterate over every public instance string-property on <typeparamref name="T"/>,
+        /// yielding only those whose value is non-null, non-empty, and not equal to the sentinel.
+        /// </summary>
+        public static IEnumerable<(PropertyInfo Prop, string? Value)>
+          GetNonIgnoredStringProperties<T>(
+            this T obj,
+            string sentinel = StringIgnore.Ignore)
         {
-            string typeName = typeof(TVertex).FullName!;
-            if (!PropertyMap.TryGetValue(typeName, out var props))
-            {
-                props = typeof(TVertex)
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance);
-                PropertyMap.TryAdd(typeName, props);
-            }
+            // grab all public instance props of type string
+            var props = typeof(T)
+              .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+              .Where(pi =>
+                 pi.CanRead
+              && pi.CanWrite
+              && pi.PropertyType == typeof(string));
 
             foreach (var pi in props)
             {
-                if (!pi.CanRead || !pi.CanWrite)
+                var val = (string?)pi.GetValue(obj);
+
+                if (val == sentinel)
                     continue;
 
-                var val = pi.GetValue(vertex);
-                if (val == null)
-                    continue;
-
-                // only null out reference‐type props or nullable value‐types
-                var isNullableValueType =
-                    Nullable.GetUnderlyingType(pi.PropertyType) != null;
-                if (pi.PropertyType.IsClass || isNullableValueType)
-                {
-                    // here we do whatever comparison makes sense:
-                    // e.g. string equality, numeric equality, etc.
-                    if (Equals(val, sentinel))
-                    {
-                        pi.SetValue(vertex, null);
-                    }
-                }
+                yield return (pi, val);
             }
         }
     }
@@ -95,12 +87,16 @@ namespace Watr.Exchange.Data.Commands
         {
             try
             {
-                request.Vertex.NullifySentinelValues();
                 var v = await G.V(request.Vertex.Id).OfType<Vertex>().FirstAsync(cancellationToken);
                 request.Vertex.CreateDate = v.CreateDate;
                 request.Vertex.CreatedByUserId = v.CreatedByUserId;
                 request.Vertex.IsDeleted = v.IsDeleted;
-                await G.V(request.Vertex.Id).OfType<TVertex>().Update(request.Vertex).FirstAsync(cancellationToken);
+                var upd = G.V(request.Vertex.Id).OfType<TVertex>().Update(request.Vertex);
+                foreach (var (pi, val) in request.Vertex.GetNonIgnoredStringProperties())
+                {
+                    upd = upd.Property(pi.Name, val);
+                }
+                await upd.FirstAsync(cancellationToken);
                 return Unit.Value;
             }
             catch (Exception ex)
