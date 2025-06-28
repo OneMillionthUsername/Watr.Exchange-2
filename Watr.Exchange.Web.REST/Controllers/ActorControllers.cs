@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Watr.Exchange.Business;
 using Watr.Exchange.Business.Core;
 using Watr.Exchange.Core;
+using Watr.Exchange.DTO;
 
 namespace Watr.Exchange.Web.REST.Controllers
 {

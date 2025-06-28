@@ -8,7 +8,7 @@ using Watr.Exchange.Core;
 using System.Reflection.Metadata;
 using System.Reflection;
 using AutoMapper.Internal;            // for IActor, etc.
-
+using Watr.Exchange.DTO;
 
 namespace Watr.Exchange.Mapping.Core
 {

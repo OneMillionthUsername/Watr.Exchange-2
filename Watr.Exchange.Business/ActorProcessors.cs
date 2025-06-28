@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Watr.Exchange.Business.Core;
 using Watr.Exchange.Core;
+using Watr.Exchange.DTO;
 
 namespace Watr.Exchange.Business
 {

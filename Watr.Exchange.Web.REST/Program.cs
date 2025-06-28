@@ -15,6 +15,7 @@ using Watr.Exchange.Data.Core.Actors;
 using Watr.Exchange.Data.Queries;
 using Watr.Exchange.Data.Queries.Core;
 using Watr.Exchange.Mapping.Core;
+using Watr.Exchange.DTO;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

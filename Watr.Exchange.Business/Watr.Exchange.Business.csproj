@@ -16,6 +16,7 @@
     <ProjectReference Include="..\Watr.Exchange.Data.Commands.Core\Watr.Exchange.Data.Commands.Core.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Data.Core\Watr.Exchange.Data.Core.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Data.Queries.Core\Watr.Exchange.Data.Queries.Core.csproj" />
+    <ProjectReference Include="..\Watr.Exchange.DTO\Watr.Exchange.DTO.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Mapping.Core\Watr.Exchange.Mapping.Core.csproj" />
   </ItemGroup>
 

@@ -1,5 +1,4 @@
-﻿using ExRam.Gremlinq.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -7,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Watr.Exchange.Core;
 
-namespace Watr.Exchange.Business.Core
+namespace Watr.Exchange.DTO
 {
     public interface IDTO : IObject { }
     public interface ICreateDTO : IDTO { }

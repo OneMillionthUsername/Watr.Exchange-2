@@ -2,7 +2,7 @@ using AutoMapper;
 using Watr.Exchange.Core;
 using Watr.Exchange.Data.Core.Actors;
 using Watr.Exchange.Mapping.Core;
-
+using Watr.Exchange.DTO;
 namespace Watr.Exchange.Business.Mappings.Test;
 
 [TestClass]

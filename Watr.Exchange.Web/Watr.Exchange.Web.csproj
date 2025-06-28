@@ -22,6 +22,7 @@
     <ProjectReference Include="..\Watr.Exchange.Business.Core\Watr.Exchange.Business.Core.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Business.Proxy\Watr.Exchange.Business.Proxy.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Core\Watr.Exchange.Core.csproj" />
+    <ProjectReference Include="..\Watr.Exchange.DTO\Watr.Exchange.DTO.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Security.Blazor\Watr.Exchange.Security.Blazor.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Security.Core\Watr.Exchange.Security.Core.csproj" />
     <ProjectReference Include="..\Watr.Exchange.ViewModels\Watr.Exchange.ViewModels.csproj" />

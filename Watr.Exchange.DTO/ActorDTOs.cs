@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Watr.Exchange.Business.Core;
 using Watr.Exchange.Core;
-using Watr.Exchange.Data.Core;
 
-namespace Watr.Exchange.Business
+namespace Watr.Exchange.DTO
 {
     
     public abstract class CreateActorDTO : CreateDTO, IActor, IActorSpecification

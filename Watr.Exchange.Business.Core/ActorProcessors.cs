@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Watr.Exchange.Core;
+using Watr.Exchange.DTO;
 
 namespace Watr.Exchange.Business.Core
 {

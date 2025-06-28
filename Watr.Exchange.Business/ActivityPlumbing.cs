@@ -15,6 +15,7 @@ using Watr.Exchange.Core;
 using Watr.Exchange.Data.Commands.Core;
 using Watr.Exchange.Data.Core;
 using Watr.Exchange.Data.Queries.Core;
+using Watr.Exchange.DTO;
 
 namespace Watr.Exchange.Business
 {
