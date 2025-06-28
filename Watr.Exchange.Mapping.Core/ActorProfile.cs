@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using System;
 using Watr.Exchange.Business.Core;   // for CreateDTO, UpdateDTO, ReadDTO
-using Watr.Exchange.Business;        // for Create*/Update* DTO classes
-using Watr.Exchange.Data.Core;       // for Vertex & Actor classes
+using Watr.Exchange.Business;
+using Watr.Exchange.Data.Core;// for Create*/Update* DTO classes
+using Watr.Exchange.Data.Core.Actors;       // for Vertex & Actor classes
 using Watr.Exchange.Core;
-using System.Reflection.Metadata;            // for IActor, etc.
+using System.Reflection.Metadata;
+using System.Reflection;
+using AutoMapper.Internal;            // for IActor, etc.
 
 
 namespace Watr.Exchange.Mapping.Core
@@ -81,6 +84,7 @@ namespace Watr.Exchange.Mapping.Core
     {
         public ActorMappingProfile()
         {
+
             //
             //––– CREATE mappings: CreateDTO → Vertex
             //
@@ -180,6 +184,7 @@ namespace Watr.Exchange.Mapping.Core
             CreateMap<GroupUnAccreditedInvestor, ReadGroupUnAccreditedInvestorDTO>();
             CreateMap<CorporationPatron, ReadCorporationPatronDTO>();
             CreateMap<GovernmentPatron, ReadGovernmentPatronDTO>();
+            AddGlobalIgnore("__");
             
         }
     }

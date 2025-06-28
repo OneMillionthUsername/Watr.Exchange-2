@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Watr.Exchange.Business.Core;
 using Watr.Exchange.Core;
 using Watr.Exchange.Data.Commands.Core;
-using Watr.Exchange.Data.Core;
+using Watr.Exchange.Data.Core.Actors;
 using Watr.Exchange.Data.Queries.Core;
 
 namespace Watr.Exchange.Business

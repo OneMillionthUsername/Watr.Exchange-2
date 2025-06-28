@@ -1,6 +1,6 @@
 using AutoMapper;
 using Watr.Exchange.Core;
-using Watr.Exchange.Data.Core;
+using Watr.Exchange.Data.Core.Actors;
 using Watr.Exchange.Mapping.Core;
 
 namespace Watr.Exchange.Business.Mappings.Test;
@@ -14,6 +14,7 @@ public class MappingTests
         var config = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<ActorMappingProfile>();
+            
         });
         config.AssertConfigurationIsValid();
         Mapper = config.CreateMapper();
@@ -26,7 +27,6 @@ public class MappingTests
         {
             Id = Guid.NewGuid(),
             Name = "Alice Admin",
-            EmailAddress = "alice@example.com",
             FirstName = "Alice",
             LastName = "Admin"
         };
@@ -34,7 +34,6 @@ public class MappingTests
         Assert.IsInstanceOfType<Admin>(result);
         var admin = (Admin)result;
         Assert.AreEqual(dto.Name, admin.Name);
-        Assert.AreEqual(dto.EmailAddress, admin.EmailAddress);
         Assert.AreEqual(dto.FirstName, admin.FirstName);
         Assert.AreEqual(dto.LastName, admin.LastName);
     }
@@ -45,7 +44,6 @@ public class MappingTests
         {
             Id = Guid.NewGuid(),
             Name = "Alice Admin",
-            EmailAddress = "alice@example.com",
             Stereotype = ActorStereotype.Individual,
             Type = ActorTypes.Admin
         };
@@ -53,7 +51,6 @@ public class MappingTests
         Assert.IsInstanceOfType<Admin>(result);
         var admin = (Admin)result;
         Assert.AreEqual(dto.Name, admin.Name);
-        Assert.AreEqual(dto.EmailAddress, admin.EmailAddress);
     }
     [TestMethod]
     public void Map_UpdateGroupIndependentExpert()
@@ -63,8 +60,7 @@ public class MappingTests
             Id = Guid.NewGuid(),
             Name = "Alice Independent Expert",
             FirstName = "Alice",
-            LastName = "Independent",
-            EmailAddress = "alice@indepenent.com"
+            LastName = "Independent"
         };
         Actor result = Mapper.Map<Actor>(dto);
         

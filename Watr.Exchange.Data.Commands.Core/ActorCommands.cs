@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Watr.Exchange.Data.Core;
+using Watr.Exchange.Data.Core.Actors;
 
 namespace Watr.Exchange.Data.Commands.Core
 {

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Watr.Exchange.Core
 {
+    [AttributeUsage(AttributeTargets.Property)]
+    public class MapIgnoreAttribute : Attribute
+    {
+    }
     public interface IConcrete { }
 
     public interface IGeneric : IConcrete { }
@@ -22,7 +26,18 @@ namespace Watr.Exchange.Core
     {
 
     }
-    public interface ISpecification : IObject { }
+    public interface ISpecification<TType> : IObject
+        where TType : struct, Enum
+    {
+        TType Type { get; }
+    }
+    public interface ISpecification<TType, TStereotype> : ISpecification<TType>
+        where TType: struct, Enum
+        where TStereotype: struct, Enum
+    {
+        
+        TStereotype Stereotype { get; }
+    }
     public struct Pager
     {
         public int Size { get; init; }

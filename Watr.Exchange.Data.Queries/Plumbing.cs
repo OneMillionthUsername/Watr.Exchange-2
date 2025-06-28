@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using Watr.Exchange.Data.Core;
 using Watr.Exchange.Data.Queries.Core;
 using Watr.Exchange.Core;
+using System.Runtime.CompilerServices;
+using System.Diagnostics.Metrics;
 
 namespace Watr.Exchange.Data.Queries
 {
@@ -110,6 +112,66 @@ namespace Watr.Exchange.Data.Queries
             {
                 Logger.LogError(ex, ex.Message);
                 throw;
+            }
+        }
+    }
+    public class GetSingleEdgeByIdHandler<TQuery, TEdge, TFrom, TTo> : IRequestHandler<TQuery, TEdge?>
+        where TFrom : IVertex
+        where TTo : IVertex
+        where TEdge : ISingleEdge<TFrom, TTo>
+        where TQuery: GetSingleEdgeById<TEdge, TFrom, TTo>
+    {
+        protected IGremlinQuerySource G { get; }
+        protected ILogger Logger { get; }
+        public GetSingleEdgeByIdHandler(IGremlinQuerySource g, ILogger<TQuery> logger)
+        {
+            G = g;
+            Logger = logger;
+        }
+
+        public async Task<TEdge?> Handle(TQuery request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var edge = await G.V<TFrom>(request.FromId).InE<TEdge>().Where(e => e.IsDeleted == false).SingleOrDefaultAsync(cancellationToken);
+                if (edge != null)
+                {
+                    edge.From = await G.V<TFrom>(request.FromId).SingleAsync(cancellationToken);
+                    edge.To = await G.E<TEdge>(edge.Id).InV<TTo>().SingleAsync(cancellationToken);
+                }
+                return edge;
+            }
+            catch(Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+    }
+    public class GetMultiEdgeByIdHandler<TQuery, TEdgeValue, TEdge, TFrom, TTo> : IStreamRequestHandler<TQuery, TEdgeValue>
+        where TFrom : IVertex
+        where TTo : IVertex
+        where TEdgeValue: IEdgeValue<TFrom, TTo>
+        where TEdge : IMultiEdge<TEdgeValue, TFrom, TTo>
+        where TQuery : GetMultiEdgeById<TEdgeValue, TEdge, TFrom, TTo>
+    {
+        protected IGremlinQuerySource G { get; }
+        protected ILogger Logger { get; }
+        public GetMultiEdgeByIdHandler(IGremlinQuerySource g, ILogger<TQuery> logger)
+        {
+            G = g;
+            Logger = logger;
+        }
+
+        public async IAsyncEnumerable<TEdgeValue> Handle(TQuery request,[EnumeratorCancellation] CancellationToken cancellationToken)
+        {
+            var gv = G.V<TFrom>(request.FromId);
+            TFrom from = await gv.SingleAsync(cancellationToken);
+            await foreach(var ev in gv.OutE<TEdgeValue>().Where(e => e.IsDeleted == false).ToAsyncEnumerable())
+            {
+                ev.From = from;
+                ev.To = await G.E<TEdgeValue>(ev.Id).InV<TTo>().SingleAsync(cancellationToken);
+                yield return ev;
             }
         }
     }

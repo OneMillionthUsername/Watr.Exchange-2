@@ -43,5 +43,27 @@ namespace Watr.Exchange.Data.Queries.Core
         }
     }
     
-
+    public class GetSingleEdgeById<TEdge, TFrom, TTo> : IRequest<TEdge?>
+        where TFrom: IVertex
+        where TTo: IVertex
+        where TEdge : ISingleEdge<TFrom, TTo>
+    {
+        public string FromId { get; }
+        public GetSingleEdgeById(string fromId)
+        {
+            FromId = fromId;
+        }
+    }
+    public class GetMultiEdgeById<TEdgeValue, TEdge, TFrom, TTo> : IStreamRequest<TEdgeValue>
+        where TFrom : IVertex
+        where TTo : IVertex
+        where TEdgeValue : IEdgeValue<TFrom, TTo>
+        where TEdge : IMultiEdge<TEdgeValue, TFrom, TTo>
+    {
+        public string FromId { get; }
+        public GetMultiEdgeById(string fromId)
+        {
+            FromId = fromId;
+        }
+    }
 }

@@ -10,13 +10,10 @@ namespace Watr.Exchange.Core
     public interface IActor : IObject
     {
         string Name { get; set; }
-        string EmailAddress { get; set; }
     }
     
-    public interface IActorSpecification : ISpecification
+    public interface IActorSpecification : ISpecification<ActorTypes, ActorStereotype>
     {
-        ActorTypes Type { get; }
-        ActorStereotype Stereotype { get; }
     }
     public interface IIndividualActor : IActor
     {

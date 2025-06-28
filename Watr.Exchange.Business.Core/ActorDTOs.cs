@@ -13,7 +13,6 @@ namespace Watr.Exchange.Business
     public abstract class CreateActorDTO : CreateDTO, IActor, IActorSpecification
     {
         public string Name { get; set; } = null!;
-        public string EmailAddress { get; set; } = null!;
 
         public abstract ActorTypes Type { get; }
 
@@ -115,7 +114,6 @@ namespace Watr.Exchange.Business
     public class UpdateActorDTO : UpdateDTO<Guid>, IActor, IActorSpecification
     {
         public string Name { get; set; } = null!;
-        public string EmailAddress { get; set; } = null!;
 
         public virtual ActorTypes Type { get; set; } = ActorTypes.Unknown;
 
@@ -256,7 +254,6 @@ namespace Watr.Exchange.Business
     public abstract class ReadActorDTO : ReadDTO<Guid>, IActor
     {
         public string Name { get; set; } = null!;
-        public string EmailAddress { get; set; } = null!;
 
         public abstract ActorTypes Type { get; }
 

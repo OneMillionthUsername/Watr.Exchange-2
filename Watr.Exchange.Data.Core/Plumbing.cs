@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -27,7 +28,6 @@ namespace Watr.Exchange.Data.Core
     }
     public interface IEdge : IGraphObject
     {
-        string EdgeName { get; }
     }
     public interface IEdge<TFrom, TTo> : IEdge
         where TFrom : IVertex
@@ -37,20 +37,26 @@ namespace Watr.Exchange.Data.Core
         TFrom From { get; set; }
     }
     public interface ISingleEdge : IEdge { }
-    public interface IMultiEdge : IEdge { }
-    public interface ISingleEdge<TFrom, TTo> : ISingleEdge, IEdge<TFrom, TTo>
+    public interface IMultiEdge : IEnumerable { }
+    public interface ISingleEdge<TFrom, TTo> : ISingleEdge, IEdgeValue<TFrom, TTo>
         where TFrom : IVertex
         where TTo : IVertex
+    {
+    }
+    public interface IEdgeValue<TFrom, TTo> : IEdge<TFrom, TTo>
+        where TFrom: IVertex
+        where TTo: IVertex
     {
         [JsonIgnore]
         TTo? To { get; set; }
     }
-    public interface IMultiEdge<TFrom, TTo> : IMultiEdge, IEdge<TFrom, TTo>
+    public interface IMultiEdge<TEdgeValue, TFrom, TTo> : IMultiEdge, IEnumerable<TEdgeValue>
         where TFrom : IVertex
         where TTo : IVertex
+        where TEdgeValue : IEdgeValue<TFrom, TTo>
     {
         [JsonIgnore]
-        ICollection<TTo> To { get; set; }
+        ICollection<TEdgeValue> Values { get; set; }
     }
 
     public abstract class GraphObject : IGraphObject
@@ -82,33 +88,43 @@ namespace Watr.Exchange.Data.Core
     }
     public abstract class Edge : GraphObject, IEdge
     {
-        private string? edgeName;
-        public virtual string EdgeName
-        {
-            get
-            {
-                if (edgeName == null)
-                    edgeName = GetType().Name;
-                return edgeName;
-            }
-        }
     }
     public abstract class Edge<TFrom, TTo> : Edge, IEdge<TFrom, TTo>
         where TFrom : IVertex
         where TTo : IVertex
     {
+        [JsonIgnore]
         public TFrom From { get; set; } = default!;
     }
-    public abstract class SingleEdge<TFrom, TTo> : Edge<TFrom, TTo>, ISingleEdge<TFrom, TTo>
+    public abstract class SingleEdge<TFrom, TTo> : EdgeValue<TFrom, TTo>, ISingleEdge<TFrom, TTo>
         where TFrom : IVertex
         where TTo : IVertex
     {
+    }
+    public abstract class EdgeValue<TFrom, TTo> : Edge<TFrom, TTo>, IEdgeValue<TFrom, TTo>
+        where TFrom : IVertex
+        where TTo : IVertex
+    {
+        [JsonIgnore]
         public TTo? To { get; set; }
     }
-    public abstract class MultiEdge<TFrom, TTo> : Edge<TFrom, TTo>, IMultiEdge<TFrom, TTo>
+    public abstract class MultiEdge<TEdgeValue, TFrom, TTo> : IMultiEdge<TEdgeValue, TFrom, TTo>
         where TFrom : IVertex
         where TTo : IVertex
+        where TEdgeValue : IEdgeValue<TFrom, TTo>
     {
-        public virtual ICollection<TTo> To { get; set; } = [];
+        [JsonIgnore]
+        public virtual ICollection<TEdgeValue> Values { get; set; } = [];
+
+        public IEnumerator<TEdgeValue> GetEnumerator()
+        {
+            foreach(var to in Values)
+                yield return to;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

@@ -11,7 +11,7 @@ using Watr.Exchange.Business.Core;
 using Watr.Exchange.Core;
 using Watr.Exchange.Data.Commands;
 using Watr.Exchange.Data.Commands.Core;
-using Watr.Exchange.Data.Core;
+using Watr.Exchange.Data.Core.Actors;
 using Watr.Exchange.Data.Queries;
 using Watr.Exchange.Data.Queries.Core;
 using Watr.Exchange.Mapping.Core;
@@ -36,6 +36,7 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(WatrExchangeQueryHandlers).Assembly);
     cfg.RegisterServicesFromAssembly(typeof(WatrExchangeCommandHandlers).Assembly);
 });
+
 builder.Services
     .AddGremlinq(setup => setup
         .UseCosmosDb<Watr.Exchange.Data.Core.Vertex, Watr.Exchange.Data.Core.Edge>()

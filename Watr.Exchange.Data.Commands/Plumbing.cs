@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Watr.Exchange.Core;
@@ -78,7 +79,7 @@ namespace Watr.Exchange.Data.Commands
                 var d = await G.AddV(request.Vertex).FirstAsync(cancellationToken);
                 return d.Id;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.LogError(ex, ex.Message);
                 throw;
@@ -121,7 +122,7 @@ namespace Watr.Exchange.Data.Commands
         }
     }
     public class DeleteCommandHandler<TCommand> : IRequestHandler<TCommand, Unit>
-        where TCommand: DeleteVertex
+        where TCommand : DeleteVertex
     {
         protected IGremlinQuerySource G { get; }
         protected ILogger Logger { get; }
@@ -147,7 +148,7 @@ namespace Watr.Exchange.Data.Commands
         }
     }
     public class HardDeleteCommandHandler<TCommand> : DeleteCommandHandler<TCommand>
-        where TCommand: HardDeleteVertex
+        where TCommand : HardDeleteVertex
     {
         public HardDeleteCommandHandler(IGremlinQuerySource q, ILogger<TCommand> logger) : base(q, logger)
         {
@@ -158,6 +159,202 @@ namespace Watr.Exchange.Data.Commands
             try
             {
                 await G.V(request.Id).Drop().FirstAsync(cancellationToken);
+                return Unit.Value;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+    }
+    public class CreateSingleEdgeCommandHandler<TCommand, TEdge, TFrom, TTo> : IRequestHandler<TCommand, string>
+        where TFrom : IVertex
+        where TTo : IVertex
+        where TEdge : ISingleEdge<TFrom, TTo>, new()
+        where TCommand : CreateSingleEdge<TEdge, TFrom, TTo>
+    {
+        protected IGremlinQuerySource G { get; }
+        protected ILogger Logger { get; }
+        public CreateSingleEdgeCommandHandler(IGremlinQuerySource q, ILogger<TCommand> logger)
+        {
+            G = q;
+            Logger = logger;
+        }
+        public virtual async Task<string> Handle(TCommand request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var e = request.Edge;
+
+                var ed = await G.V<TFrom>(e.From.Id).AddE(e).To(__ =>
+                    __.V<TTo>(e?.To?.Id ?? throw new InvalidDataException())).FirstAsync(cancellationToken);
+                return ed.Id;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+    }
+    public class CreateMultiEdgeCommandHandler<TCommand, TEdgeValue, TEdge, TFrom, TTo> : IStreamRequestHandler<TCommand, string>
+        where TFrom : IVertex
+        where TTo : IVertex
+        where TEdgeValue: IEdgeValue<TFrom, TTo>
+        where TEdge : IMultiEdge<TEdgeValue, TFrom, TTo>, new()
+        where TCommand : CreateMultiEdge<TEdgeValue, TEdge, TFrom, TTo>
+    {
+        protected IGremlinQuerySource G { get; }
+        protected ILogger Logger { get; }
+        public CreateMultiEdgeCommandHandler(IGremlinQuerySource q, ILogger<TCommand> logger)
+        {
+            G = q;
+            Logger = logger;
+        }
+
+        public virtual async IAsyncEnumerable<string> Handle(TCommand request, [EnumeratorCancellation] CancellationToken cancellationToken)
+        {
+            var e = request.Edge;
+            foreach (var to in e)
+            {
+                var ed = await G.V<TFrom>(to.From.Id).AddE(to).To(__ =>
+                    __.V<TTo>(to.To?.Id ?? throw new InvalidDataException())).FirstAsync(cancellationToken);
+                yield return ed.Id;
+            }
+        }
+    }
+    public class UpdateSingleEdgeCommandHandler<TCommand, TEdge, TFrom, TTo> : IRequestHandler<TCommand, string>
+        where TFrom : IVertex
+        where TTo : IVertex
+        where TEdge : ISingleEdge<TFrom, TTo>, new()
+        where TCommand : UpdateSingleEdge<TEdge, TFrom, TTo>
+    {
+        protected IGremlinQuerySource G { get; }
+        protected ILogger Logger { get; }
+        public UpdateSingleEdgeCommandHandler(IGremlinQuerySource q, ILogger<TCommand> logger)
+        {
+            G = q;
+            Logger = logger;
+        }
+
+        public virtual async Task<string> Handle(TCommand request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(request.Edge.To?.Id))
+                    throw new InvalidDataException();
+                var to = await G.E<TEdge>(request.Edge.Id).Where(e => e.IsDeleted == false).InV<TTo>().SingleAsync(cancellationToken);
+                if (to.Id != request.Edge.To.Id)
+                {
+                    await G.E<TEdge>(request.Edge.Id).Drop().FirstOrDefaultAsync(cancellationToken);
+                    var ed = await G.V<TFrom>(request.Edge.From.Id).AddE(request.Edge).To(__ =>
+                        __.V<TTo>(request.Edge.To.Id)).FirstAsync(cancellationToken);
+                    return ed.Id;
+
+                }
+                else
+                {
+                    var e = G.E<TEdge>(request.Edge.Id);
+                    foreach (var (pi, val) in request.Edge.GetNonIgnoredStringProperties())
+                    {
+                        e = e.Property(pi.Name, val);
+                    }
+                    var ed = await e.FirstAsync(cancellationToken);
+                    return ed.Id;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+    }
+    public class UpdateMultipleEdgeCommandHandler<TCommand, TEdgeValue, TEdge, TFrom, TTo> : IStreamRequestHandler<TCommand, string>
+        where TFrom : IVertex
+        where TTo : IVertex
+        where TEdgeValue : IEdgeValue<TFrom, TTo>
+        where TEdge : IMultiEdge<TEdgeValue, TFrom, TTo>, new()
+        where TCommand : UpdateMultiEdge<TEdgeValue, TEdge, TFrom, TTo>
+    {
+        protected IGremlinQuerySource G { get; }
+        protected ILogger Logger { get; }
+        public UpdateMultipleEdgeCommandHandler(IGremlinQuerySource q, ILogger<TCommand> logger)
+        {
+            G = q;
+            Logger = logger;
+        }
+
+        public virtual async IAsyncEnumerable<string> Handle(TCommand request, [EnumeratorCancellation] CancellationToken cancellationToken)
+        {
+            var e = request.Edge;
+            if (!e.Any())
+                yield break;
+            var fromId = e.First().From.Id;
+            var tos = await G.V<TFrom>(fromId).Out<TEdgeValue>().OfType<TTo>().ToArrayAsync(cancellationToken);
+            HashSet<string> ids = new HashSet<string>();
+            foreach (var to in tos)
+                ids.Add(to.Id);
+            foreach (var id in ids.Where(i => !e.Any(t => t.Id == i)))
+            {
+                await G.E<TEdge>(id).Drop().FirstOrDefaultAsync();
+            }
+            foreach (var to in request.Edge.Where(ed => !ids.Contains(ed.Id)))
+            {
+                var ed = await G.V<TFrom>(fromId).AddE(to).To(__ =>
+                        __.V<TTo>(to.To?.Id ?? throw new InvalidDataException())).FirstAsync(cancellationToken);
+                yield return ed.Id;
+            }
+            foreach (var to in request.Edge.Where(ed => ids.Contains(ed.Id)))
+            {
+                var ev = G.E<TEdgeValue>(to.Id);
+                foreach (var (pi, val) in request.Edge.GetNonIgnoredStringProperties())
+                {
+                    ev = ev.Property(pi.Name, val);
+                }
+                var eg = await ev.FirstAsync(cancellationToken);
+                yield return eg.Id;
+            }
+        }
+    }
+    
+    public class DeleteEdgeCommandHandler<TCommand> : IRequestHandler<TCommand, Unit>
+        where TCommand : DeleteEdge
+    {
+        protected IGremlinQuerySource G { get; }
+        protected ILogger Logger { get; }
+        public DeleteEdgeCommandHandler(IGremlinQuerySource q, ILogger<TCommand> logger)
+        {
+            G = q;
+            Logger = logger;
+        }
+
+        public virtual async Task<Unit> Handle(TCommand request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                await G.E<Data.Core.Edge>(request.Id).Property(p => p.IsDeleted, true).FirstOrDefaultAsync();
+                return Unit.Value;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+    }
+    public class HardDeleteEdgeCommandHandler<TCommand> : DeleteEdgeCommandHandler<TCommand>
+        where TCommand : HardDeleteEdge
+    {
+        public HardDeleteEdgeCommandHandler(IGremlinQuerySource q, ILogger<TCommand> logger) : base(q, logger)
+        {
+        }
+        public override async Task<Unit> Handle(TCommand request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                await G.E(request.Id).Drop().FirstOrDefaultAsync();
                 return Unit.Value;
             }
             catch (Exception ex)

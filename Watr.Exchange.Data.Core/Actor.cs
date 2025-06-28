@@ -6,14 +6,37 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Watr.Exchange.Core;
 
-namespace Watr.Exchange.Data.Core
+namespace Watr.Exchange.Data.Core.Actors
 {
+    public class PrimaryContactMechanism : SingleEdge<Actor, ContactMechanisms.ContactMechanism> { }
+    public class AssociatedEmailAddress : EdgeValue<Actor, ContactMechanisms.EmailAddress> { }
+    public class AssociatedEmailAddresses : MultiEdge<AssociatedEmailAddress, Actor, ContactMechanisms.EmailAddress> { }
+    public class PrimaryEmailAddress : SingleEdge<Actor, ContactMechanisms.EmailAddress> { }
+    public class AssociatedPhone : EdgeValue<Actor, ContactMechanisms.Phone> { }
+    public class AssociatedPhones : MultiEdge<AssociatedPhone, Actor, ContactMechanisms.Phone> { }
+    public class PrimaryPhone : SingleEdge<Actor, ContactMechanisms.Phone> { }
+    public class AssociatedMailingAddress : EdgeValue<Actor, ContactMechanisms.MailingAddress> { }
+    public class AssociatedMailingAddresses : MultiEdge<AssociatedMailingAddress, Actor, ContactMechanisms.MailingAddress> { }
+    public class PrimaryMailingAddress : SingleEdge<Actor, ContactMechanisms.MailingAddress> { }
     public abstract class Actor : Vertex, IActor, IActorSpecification
     {
         public string Name { get; set; } = null!;
         public abstract ActorTypes Type { get; }
         public abstract ActorStereotype Stereotype { get; }
-        public string EmailAddress { get; set; } = null!;
+        [JsonIgnore]
+        public AssociatedEmailAddresses? __EmailAddresses { get; set; }
+        [JsonIgnore]
+        public AssociatedPhones? __Phones { get; set; }
+        [JsonIgnore]
+        public PrimaryEmailAddress? __PrimaryEmailAddress { get; set; }
+        [JsonIgnore]
+        public PrimaryContactMechanism? __PrimaryContactMechanism { get; set; }
+        [JsonIgnore]
+        public PrimaryPhone? __PrimaryPhone { get; set; }
+        [JsonIgnore]
+        public AssociatedMailingAddresses? __MailingAddresses { get; set; }
+        [JsonIgnore]
+        public PrimaryMailingAddress? __PrimaryMailingAddress { get; set; }
     }
     public class Admin : Actor, IAdmin, IConcrete
     {
