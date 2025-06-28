@@ -26,7 +26,7 @@ namespace Watr.Exchange.Core
     {
 
     }
-    public interface ISpecification<TType> : IObject
+    public interface ISpecification<TType>
         where TType : struct, Enum
     {
         TType Type { get; }

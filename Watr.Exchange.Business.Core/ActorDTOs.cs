@@ -251,7 +251,7 @@ namespace Watr.Exchange.Business
 
     }
     public class DeleteAdminDTO : DeleteActorDTO { }
-    public abstract class ReadActorDTO : ReadDTO<Guid>, IActor
+    public abstract class ReadActorDTO : ReadDTO<Guid>, IActor, IActorSpecification
     {
         public string Name { get; set; } = null!;
 

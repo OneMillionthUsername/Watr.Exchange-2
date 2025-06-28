@@ -14,9 +14,9 @@ namespace Watr.Exchange.Data.Core.Accounts
         public string? LastName { get; set; }
         public string ObjectId { get; set; } = null!;
         [JsonIgnore]
-        public HasRoles? Roles { get; set; }
+        public HasRoles? __Roles { get; set; }
         [JsonIgnore]
-        public EmailAddress? EmailAddress { get; set; }
+        public EmailAddress? __EmailAddress { get; set; }
     }
     public class Role : Vertex, IRole
     {
