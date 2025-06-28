@@ -16,6 +16,7 @@ using Watr.Exchange.Core;
 
 namespace Watr.Exchange.Data.Queries
 {
+    public static class WatrExchangeQueryHandlers { }
     public class GetVertexByIdHandler<TQuery, TVertex> : IRequestHandler<TQuery, TVertex?>
         where TVertex : IVertex
         where TQuery : GetVertexById<TVertex>
@@ -56,6 +57,7 @@ namespace Watr.Exchange.Data.Queries
                 int skip = p.Size * (p.Page - 1);
                 query = query.Skip(skip).Limit(p.Size);
             }
+            query = query.Where(v => !v.IsDeleted);
             return query;
         }
 

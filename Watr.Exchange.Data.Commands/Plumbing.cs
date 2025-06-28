@@ -17,26 +17,27 @@ using Vertex = Watr.Exchange.Data.Core.Vertex;
 
 namespace Watr.Exchange.Data.Commands
 {
+    public static class WatrExchangeCommandHandlers { }
     internal static class Extensions
     {
         /// <summary>
         /// Iterate over every public instance string-property on <typeparamref name="T"/>,
         /// yielding only those whose value is non-null, non-empty, and not equal to the sentinel.
         /// </summary>
-        public static IEnumerable<(PropertyInfo Prop, string? Value)>
+        public static IEnumerable<(PropertyInfo Prop, object? Value)>
           GetNonIgnoredStringProperties<T>(
             this T obj,
             string sentinel = StringIgnore.Ignore)
         {
             // grab all public instance props of type string
-            var props = typeof(T)
+            var strProps = typeof(T)
               .GetProperties(BindingFlags.Public | BindingFlags.Instance)
               .Where(pi =>
                  pi.CanRead
               && pi.CanWrite
               && pi.PropertyType == typeof(string));
 
-            foreach (var pi in props)
+            foreach (var pi in strProps)
             {
                 var val = (string?)pi.GetValue(obj);
 
@@ -45,9 +46,21 @@ namespace Watr.Exchange.Data.Commands
 
                 yield return (pi, val);
             }
+            var nonStrProps = typeof(T)
+              .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+              .Where(pi =>
+                 pi.CanRead
+              && pi.CanWrite
+              && pi.PropertyType != typeof(string));
+            foreach (var pi in nonStrProps)
+            {
+                var val = pi.GetValue(obj);
+
+                yield return (pi, val);
+            }
         }
     }
-    public abstract class CreateCommandHandler<TCommand, TVertex> : IRequestHandler<TCommand, string>
+    public class CreateCommandHandler<TCommand, TVertex> : IRequestHandler<TCommand, string>
         where TVertex : IVertex, IConcrete, new()
         where TCommand : CreateVertex<TVertex>
     {

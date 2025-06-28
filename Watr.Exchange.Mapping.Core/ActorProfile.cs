@@ -137,6 +137,8 @@ namespace Watr.Exchange.Mapping.Core
             CreateMap<UpdateAdminDTO, Admin>().MapId<UpdateAdminDTO, Admin, Guid>().IgnoreGraphMetadata();
             CreateMap<UpdateAdminDTO, Actor>()
                 .ConvertUsing((src, dest, ctx) => ctx.Mapper.Map<Admin>(src));
+            CreateMap<UpdateIndependentIndividualDTO, Actor>()
+                .ConvertUsing((src, dest, ctx) => ctx.Mapper.Map<IndependentIndividual>(src));
             CreateMap<UpdateStaffIndividualDTO, StaffIndividual>().IgnoreGraphMetadata();
             CreateMap<UpdateStaffGroupDTO, StaffGroup>().IgnoreGraphMetadata();
             CreateMap<UpdateIndependentIndividualDTO, IndependentIndividual>().IgnoreGraphMetadata();

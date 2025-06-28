@@ -55,4 +55,18 @@ public class MappingTests
         Assert.AreEqual(dto.Name, admin.Name);
         Assert.AreEqual(dto.EmailAddress, admin.EmailAddress);
     }
+    [TestMethod]
+    public void Map_UpdateGroupIndependentExpert()
+    {
+        var dto = new UpdateIndependentIndividualDTO()
+        {
+            Id = Guid.NewGuid(),
+            Name = "Alice Independent Expert",
+            FirstName = "Alice",
+            LastName = "Independent",
+            EmailAddress = "alice@indepenent.com"
+        };
+        Actor result = Mapper.Map<Actor>(dto);
+        
+    }
 }

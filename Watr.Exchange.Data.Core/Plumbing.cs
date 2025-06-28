@@ -69,11 +69,21 @@ namespace Watr.Exchange.Data.Core
 
     public abstract class Vertex : GraphObject, IVertex
     {
-        public virtual string PartitionKey => Id;
+        private string? vertexName;
+
+        public virtual string PartitionKey
+        {
+            get
+            {
+                vertexName ??= GetType().Name;
+                return vertexName;
+            }
+            set { }
+        }
     }
     public abstract class Edge : GraphObject, IEdge
     {
-        private static string? edgeName;
+        private string? edgeName;
         public virtual string EdgeName
         {
             get

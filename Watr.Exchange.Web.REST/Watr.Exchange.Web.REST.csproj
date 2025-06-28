@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ExRam.Gremlinq.Providers.CosmosDb.AspNet" Version="12.23.0" />
+    <PackageReference Include="ExRam.Gremlinq.Support.NewtonsoftJson.AspNet" Version="12.23.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.17" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.17" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.Identity.Web" Version="3.9.4" />
@@ -17,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Watr.Exchange.Business.Core\Watr.Exchange.Business.Core.csproj" />
+    <ProjectReference Include="..\Watr.Exchange.Business.REST\Watr.Exchange.Business.REST.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Business\Watr.Exchange.Business.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Core\Watr.Exchange.Core.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Data.Commands.Core\Watr.Exchange.Data.Commands.Core.csproj" />
@@ -25,6 +28,7 @@
     <ProjectReference Include="..\Watr.Exchange.Data.Queries.Core\Watr.Exchange.Data.Queries.Core.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Data.Queries\Watr.Exchange.Data.Queries.csproj" />
     <ProjectReference Include="..\Watr.Exchange.Data\Watr.Exchange.Data.csproj" />
+    <ProjectReference Include="..\Watr.Exchange.Mapping.Core\Watr.Exchange.Mapping.Core.csproj" />
   </ItemGroup>
 
 </Project>

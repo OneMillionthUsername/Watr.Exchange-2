@@ -38,6 +38,7 @@ namespace Watr.Exchange.Core
         Accredited,
         Unaccredited,
     }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum ActorStereotype
     {
         Unknown,

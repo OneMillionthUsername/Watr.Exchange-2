@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Watr.Exchange.Mapping.Core"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Watr.Exchange.Business.Mappings.Test", "Watr.Exchange.Business.Mappings.Test\Watr.Exchange.Business.Mappings.Test.csproj", "{B2A0BE19-AB61-4F01-9E64-23DB2D7670C0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Watr.Exchange.Business.REST", "Watr.Exchange.Business.REST\Watr.Exchange.Business.REST.csproj", "{CD603A66-B235-4C06-AE5B-FCC4EC38A8E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -142,6 +144,10 @@ Global
 		{B2A0BE19-AB61-4F01-9E64-23DB2D7670C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2A0BE19-AB61-4F01-9E64-23DB2D7670C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2A0BE19-AB61-4F01-9E64-23DB2D7670C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD603A66-B235-4C06-AE5B-FCC4EC38A8E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD603A66-B235-4C06-AE5B-FCC4EC38A8E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD603A66-B235-4C06-AE5B-FCC4EC38A8E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD603A66-B235-4C06-AE5B-FCC4EC38A8E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -168,6 +174,7 @@ Global
 		{1B5DDCF9-943F-42F0-BBA0-FF2E1EE7A42B} = {1E2A86F6-E651-406F-8001-1F78C32DB406}
 		{5FAA663F-73B1-4680-913F-4343FF168679} = {AABE964A-A2B2-487E-93F8-3DCFCBAF0AC3}
 		{B2A0BE19-AB61-4F01-9E64-23DB2D7670C0} = {AABE964A-A2B2-487E-93F8-3DCFCBAF0AC3}
+		{CD603A66-B235-4C06-AE5B-FCC4EC38A8E3} = {AABE964A-A2B2-487E-93F8-3DCFCBAF0AC3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F71BDA19-5EB3-4CBA-9AFA-22B0C8E02C52}
