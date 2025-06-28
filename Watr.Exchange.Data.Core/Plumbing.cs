@@ -78,7 +78,6 @@ namespace Watr.Exchange.Data.Core
                 vertexName ??= GetType().Name;
                 return vertexName;
             }
-            set { }
         }
     }
     public abstract class Edge : GraphObject, IEdge

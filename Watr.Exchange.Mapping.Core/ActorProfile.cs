@@ -125,7 +125,7 @@ namespace Watr.Exchange.Mapping.Core
                     opt.MapFrom(_ => StringIgnore.Ignore))
                   .ForMember(dest => dest.LastName, opt =>
                     opt.MapFrom(_ => StringIgnore.Ignore));
-
+            
             CreateMap<UpdateGenericActorDTO, UpdateIndependentGroupDTO>();
             CreateMap<UpdateGenericActorDTO, Actor>()
                 .ConvertUsing<UpdateGenericActorTypeConverter<UpdateGenericActorDTO>>();

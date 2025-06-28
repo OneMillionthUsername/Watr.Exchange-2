@@ -27,7 +27,7 @@ namespace Watr.Exchange.Business
         {
         }
     }
-    public class UpdateActorProcessor : UpdateProcessor<IUpdateActorActivity, UpdateActorDTO, ReadActorDTO, Guid, IActor>, IUpdateActorProcessor
+    public class UpdateActorProcessor : UpdateProcessor<IUpdateActorActivity, UpdateGenericActorDTO, ReadActorDTO, Guid, IActor>, IUpdateActorProcessor
     {
         public UpdateActorProcessor(ILogger<IUpdateActorActivity> logger, IUpdateActorActivity activity) : base(logger, activity)
         {

@@ -10,7 +10,7 @@ namespace Watr.Exchange.Business.Core
     public interface ICreateAdminProcessor : ICreateProcessor<ICreateAdminActivity, CreateAdminDTO, ReadAdminDTO, Guid, IAdmin> { }
     public interface IReadActorProcessor : IReadProcessor<IActorReadActivity, ReadActorDTO, Guid, IActor> { }
     public interface IReadAdminProcessor : IReadProcessor<IAdminReadActivity, ReadAdminDTO, Guid, IAdmin> { }
-    public interface IUpdateActorProcessor : IUpdateProcessor<IUpdateActorActivity, UpdateActorDTO, ReadActorDTO, Guid, IActor> { }
+    public interface IUpdateActorProcessor : IUpdateProcessor<IUpdateActorActivity, UpdateGenericActorDTO, ReadActorDTO, Guid, IActor> { }
     public interface IUpdateAdminProcessor : IUpdateProcessor<IUpdateAdminActivity, UpdateAdminDTO, ReadAdminDTO, Guid, IAdmin> { }
     public interface IDeleteActorProcessor : IDeleteProcessor<IDeleteActorActivity, DeleteActorDTO, Guid, IActor> { }
     public interface IDeleteAdminProcessor : IDeleteProcessor<IDeleteAdminActivity, DeleteAdminDTO, Guid, IAdmin> { }

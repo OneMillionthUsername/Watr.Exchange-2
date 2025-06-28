@@ -41,6 +41,7 @@ builder.Services
         .UseCosmosDb<Watr.Exchange.Data.Core.Vertex, Watr.Exchange.Data.Core.Edge>()
         .UseNewtonsoftJson())
     .AddControllers();
+builder.Services.AddTransient<UpdateGenericActorTypeConverter<UpdateGenericActorDTO>>();
 builder.Services.AddTransient<IRequestHandler<UpdateVertex<Actor>, Unit>, UpdateCommandHandler<UpdateVertex<Actor>, Actor>>();
 builder.Services.AddTransient<IRequestHandler<CreateAdmin, string>, CreateCommandHandler<CreateAdmin, Admin>>();
 builder.Services.AddTransient<IRequestHandler<UpdateVertex<Admin>, Unit>, UpdateCommandHandler<UpdateVertex<Admin>, Admin>>();

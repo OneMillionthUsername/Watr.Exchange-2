@@ -9,7 +9,7 @@ namespace Watr.Exchange.Web.REST.Controllers
     [Route("api/actor")]
     public class ActorController : ReadUpdateDeleteController<IReadActorProcessor, IUpdateActorProcessor, IDeleteActorProcessor,
         IActorReadActivity, IUpdateActorActivity, IDeleteActorActivity,
-        ReadActorDTO, UpdateActorDTO, DeleteActorDTO, Guid, IActor>
+        ReadActorDTO, UpdateGenericActorDTO, DeleteActorDTO, Guid, IActor>
     {
         public ActorController(IReadActorProcessor readProcessor, IUpdateActorProcessor updateProcessor, IDeleteActorProcessor deleteProcessor, ILogger<IActor> logger) : base(readProcessor, updateProcessor, deleteProcessor, logger)
         {

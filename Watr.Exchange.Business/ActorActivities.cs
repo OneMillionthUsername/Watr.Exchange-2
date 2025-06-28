@@ -37,7 +37,7 @@ namespace Watr.Exchange.Business
         {
         }
     }
-    public class UpdateActorAcitivity : GuidUpdateActivity<UpdateActorDTO, ReadActorDTO, IActor, Actor>, IUpdateActorActivity
+    public class UpdateActorAcitivity : GuidUpdateActivity<UpdateGenericActorDTO, ReadActorDTO, IActor, Actor>, IUpdateActorActivity
     {
         public UpdateActorAcitivity(ILogger<IActor> logger, IMediator mediator, IMapper mapper, IReadActivity<ReadActorDTO, Guid, IActor> read) : base(logger, mediator, mapper, read)
         {

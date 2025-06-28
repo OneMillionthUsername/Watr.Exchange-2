@@ -112,7 +112,7 @@ namespace Watr.Exchange.Business
     }
 
 
-    public abstract class UpdateActorDTO : UpdateDTO<Guid>, IActor, IActorSpecification
+    public class UpdateActorDTO : UpdateDTO<Guid>, IActor, IActorSpecification
     {
         public string Name { get; set; } = null!;
         public string EmailAddress { get; set; } = null!;
@@ -151,7 +151,7 @@ namespace Watr.Exchange.Business
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
     }
-    public abstract class UpdateExpertDTO : UpdateActorDTO, IExpert, IExpertSepcification
+    public class UpdateExpertDTO : UpdateActorDTO, IExpert, IExpertSepcification
     {
         public override ActorTypes Type => ActorTypes.Expert;
         public virtual ExpertTypes ExpertType { get; set; } = ExpertTypes.Unknown;
@@ -188,7 +188,7 @@ namespace Watr.Exchange.Business
         public override ExpertTypes ExpertType => ExpertTypes.Independent;
     }
 
-    public abstract class UpdatePatronDTO : UpdateActorDTO, IPatron, IPatronSpecification
+    public class UpdatePatronDTO : UpdateActorDTO, IPatron, IPatronSpecification
     {
         public override ActorTypes Type => ActorTypes.Patron;
 

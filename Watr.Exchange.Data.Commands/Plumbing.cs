@@ -104,7 +104,8 @@ namespace Watr.Exchange.Data.Commands
                 request.Vertex.CreateDate = v.CreateDate;
                 request.Vertex.CreatedByUserId = v.CreatedByUserId;
                 request.Vertex.IsDeleted = v.IsDeleted;
-                var upd = G.V(request.Vertex.Id).OfType<TVertex>().Update(request.Vertex);
+                request.Vertex.UpdateDate = DateTime.UtcNow;
+                var upd = G.V(request.Vertex.Id).OfType<TVertex>();
                 foreach (var (pi, val) in request.Vertex.GetNonIgnoredStringProperties())
                 {
                     upd = upd.Property(pi.Name, val);
