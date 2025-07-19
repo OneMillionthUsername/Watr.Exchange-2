@@ -1,19 +1,20 @@
 ﻿using AutoMapper;
-using System;
-using Watr.Exchange.Business.Core;   // for CreateDTO, UpdateDTO, ReadDTO
-using Watr.Exchange.Business;
-using Watr.Exchange.Data.Core;// for Create*/Update* DTO classes
-using Watr.Exchange.Data.Core.Actors;       // for Vertex & Actor classes
-using Watr.Exchange.Core;
-using System.Reflection.Metadata;
-using System.Reflection;
 using AutoMapper.Internal;            // for IActor, etc.
+using System;
+using System.Reflection;
+using System.Reflection.Metadata;
+using Watr.Exchange.Business;
+using Watr.Exchange.Business.Core;   // for CreateDTO, UpdateDTO, ReadDTO
+using Watr.Exchange.Core;
+using Watr.Exchange.Data.Core;// for Create*/Update* DTO classes
+using Watr.Exchange.Data.Core.Accounts;
+using Watr.Exchange.Data.Core.Actors;       // for Vertex & Actor classes
 using Watr.Exchange.DTO;
 
 namespace Watr.Exchange.Mapping.Core
 {
     public class UpdateGenericActorTypeConverter<TGenericUpdate> : ITypeConverter<TGenericUpdate, Actor>
-        where TGenericUpdate: UpdateGenericActorDTO
+        where TGenericUpdate : UpdateGenericActorDTO
     {
         public Actor Convert(TGenericUpdate source, Actor destination, ResolutionContext context)
         {
@@ -79,12 +80,11 @@ namespace Watr.Exchange.Mapping.Core
             }
         }
     }
-    
+
     public class ActorMappingProfile : Profile
     {
         public ActorMappingProfile()
         {
-
             //
             //––– CREATE mappings: CreateDTO → Vertex
             //
@@ -129,7 +129,7 @@ namespace Watr.Exchange.Mapping.Core
                     opt.MapFrom(_ => StringIgnore.Ignore))
                   .ForMember(dest => dest.LastName, opt =>
                     opt.MapFrom(_ => StringIgnore.Ignore));
-            
+
             CreateMap<UpdateGenericActorDTO, UpdateIndependentGroupDTO>();
             CreateMap<UpdateGenericActorDTO, Actor>()
                 .ConvertUsing<UpdateGenericActorTypeConverter<UpdateGenericActorDTO>>();
@@ -185,7 +185,34 @@ namespace Watr.Exchange.Mapping.Core
             CreateMap<CorporationPatron, ReadCorporationPatronDTO>();
             CreateMap<GovernmentPatron, ReadGovernmentPatronDTO>();
             AddGlobalIgnore("__");
-            
+
         }
+    }
+
+    public class AccountMappingProfile : Profile
+    {
+        public AccountMappingProfile()
+        {
+            //Create mappings
+            CreateMap<CreateAccountDTO, Account>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .IgnoreGraphMetadata()
+                .ReverseMap();
+			CreateMap<CreateRoleDTO, Role>()
+	            .ForMember(dest => dest.Id, opt => opt.Ignore())
+	            .IgnoreGraphMetadata()
+	            .ReverseMap();
+
+			//--- Read Mappings
+			CreateMap<ReadAccountDTO, Account>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .IgnoreGraphMetadata()
+                .ReverseMap();
+			CreateMap<ReadRoleDTO, Role>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .IgnoreGraphMetadata()
+                .ReverseMap();
+			AddGlobalIgnore("__");
+		}
     }
 }

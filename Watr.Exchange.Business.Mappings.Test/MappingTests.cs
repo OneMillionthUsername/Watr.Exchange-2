@@ -1,8 +1,9 @@
 using AutoMapper;
 using Watr.Exchange.Core;
+using Watr.Exchange.Data.Core.Accounts;
 using Watr.Exchange.Data.Core.Actors;
-using Watr.Exchange.Mapping.Core;
 using Watr.Exchange.DTO;
+using Watr.Exchange.Mapping.Core;
 namespace Watr.Exchange.Business.Mappings.Test;
 
 [TestClass]
@@ -14,8 +15,8 @@ public class MappingTests
         var config = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<ActorMappingProfile>();
-            
-        });
+            cfg.AddProfile<AccountMappingProfile>();
+		});
         config.AssertConfigurationIsValid();
         Mapper = config.CreateMapper();
     }
@@ -63,6 +64,101 @@ public class MappingTests
             LastName = "Independent"
         };
         Actor result = Mapper.Map<Actor>(dto);
-        
     }
+
+	[TestMethod]
+	public void Map_CreateAccountDTO_To_Account()
+	{
+		var dto = new CreateAccountDTO
+		{
+			FirstName = "Max",
+			LastName = "Mustermann",
+			ObjectId = "obj-789"
+		};
+
+		var result = Mapper.Map<Account>(dto);
+
+		Assert.IsNotNull(result);
+		Assert.AreEqual(dto.FirstName, result.FirstName);
+		Assert.AreEqual(dto.LastName, result.LastName);
+		Assert.AreEqual(dto.ObjectId, result.ObjectId);
+	}
+
+	[TestMethod]
+	public void Map_Account_To_CreateAccountDTO()
+	{
+		var account = new Account
+		{
+            Id = Guid.NewGuid().ToString(),
+			FirstName = "Erika",
+			LastName = "Musterfrau",
+			ObjectId = "obj-123"
+		};
+
+		var result = Mapper.Map<CreateAccountDTO>(account);
+
+		Assert.IsNotNull(result);
+		Assert.AreEqual(account.FirstName, result.FirstName);
+		Assert.AreEqual(account.LastName, result.LastName);
+		Assert.AreEqual(account.ObjectId, result.ObjectId);
+	}
+
+	[TestMethod]
+	public void Map_CreateRoleDTO_To_Role()
+	{
+		var dto = new CreateRoleDTO { Name = "Admin" };
+		var result = Mapper.Map<Role>(dto);
+
+		Assert.IsNotNull(result);
+		Assert.AreEqual(dto.Name, result.Name);
+	}
+
+	[TestMethod]
+	public void Map_Role_To_ReadRoleDTO()
+	{
+		var role = new Role { Name = "User" };
+		var result = Mapper.Map<ReadRoleDTO>(role);
+
+		Assert.IsNotNull(result);
+		Assert.AreEqual(role.Name, result.Name);
+	}
+
+    [TestMethod]
+    public void Map_ReadAccountDTO_To_Account()
+    {
+        var dto = new ReadAccountDTO
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "John",
+            LastName = "Doe",
+            ObjectId = "obj-456",
+            Roles = new List<ReadRoleDTO>
+            {
+                new ReadRoleDTO { Id = Guid.NewGuid(), Name = "User" }
+            }
+        };
+        var result = Mapper.Map<Account>(dto);
+        Assert.IsNotNull(result);
+        Assert.AreEqual(dto.FirstName, result.FirstName);
+        Assert.AreEqual(dto.LastName, result.LastName);
+        Assert.AreEqual(dto.ObjectId, result.ObjectId);
+	}
+
+    [TestMethod]
+    public void Map_Account_To_ReadAccountDTO()
+    {
+        var account = new Account
+        {
+            Id = Guid.NewGuid().ToString(),
+            FirstName = "Jane",
+            LastName = "Doe",
+            ObjectId = "obj-123",
+        };
+        var result = Mapper.Map<ReadAccountDTO>(account);
+        Assert.IsNotNull(result);
+        Assert.AreEqual(account.FirstName, result.FirstName);
+        Assert.AreEqual(account.LastName, result.LastName);
+        Assert.AreEqual(account.ObjectId, result.ObjectId);
+	}
+
 }
