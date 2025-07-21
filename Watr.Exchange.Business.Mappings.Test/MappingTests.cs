@@ -66,6 +66,9 @@ public class MappingTests
         Actor result = Mapper.Map<Actor>(dto);
     }
 
+	//
+	//---Acount Mappings---
+    //
 	[TestMethod]
 	public void Map_CreateAccountDTO_To_Account()
 	{
@@ -77,7 +80,7 @@ public class MappingTests
 		};
 
 		var result = Mapper.Map<Account>(dto);
-
+        Assert.IsInstanceOfType<Account>(result);
 		Assert.IsNotNull(result);
 		Assert.AreEqual(dto.FirstName, result.FirstName);
 		Assert.AreEqual(dto.LastName, result.LastName);
@@ -89,7 +92,6 @@ public class MappingTests
 	{
 		var account = new Account
 		{
-            Id = Guid.NewGuid().ToString(),
 			FirstName = "Erika",
 			LastName = "Musterfrau",
 			ObjectId = "obj-123"
@@ -98,6 +100,7 @@ public class MappingTests
 		var result = Mapper.Map<CreateAccountDTO>(account);
 
 		Assert.IsNotNull(result);
+        Assert.IsInstanceOfType<CreateAccountDTO>(result);
 		Assert.AreEqual(account.FirstName, result.FirstName);
 		Assert.AreEqual(account.LastName, result.LastName);
 		Assert.AreEqual(account.ObjectId, result.ObjectId);
@@ -110,6 +113,7 @@ public class MappingTests
 		var result = Mapper.Map<Role>(dto);
 
 		Assert.IsNotNull(result);
+        Assert.IsInstanceOfType<Role>(result);
 		Assert.AreEqual(dto.Name, result.Name);
 	}
 
@@ -120,6 +124,7 @@ public class MappingTests
 		var result = Mapper.Map<ReadRoleDTO>(role);
 
 		Assert.IsNotNull(result);
+        Assert.IsInstanceOfType<ReadRoleDTO>(result);
 		Assert.AreEqual(role.Name, result.Name);
 	}
 
@@ -128,7 +133,6 @@ public class MappingTests
     {
         var dto = new ReadAccountDTO
         {
-            Id = Guid.NewGuid(),
             FirstName = "John",
             LastName = "Doe",
             ObjectId = "obj-456",
@@ -139,7 +143,8 @@ public class MappingTests
         };
         var result = Mapper.Map<Account>(dto);
         Assert.IsNotNull(result);
-        Assert.AreEqual(dto.FirstName, result.FirstName);
+        Assert.IsInstanceOfType<Account>(result);
+		Assert.AreEqual(dto.FirstName, result.FirstName);
         Assert.AreEqual(dto.LastName, result.LastName);
         Assert.AreEqual(dto.ObjectId, result.ObjectId);
 	}
@@ -149,14 +154,14 @@ public class MappingTests
     {
         var account = new Account
         {
-            Id = Guid.NewGuid().ToString(),
             FirstName = "Jane",
             LastName = "Doe",
             ObjectId = "obj-123",
         };
         var result = Mapper.Map<ReadAccountDTO>(account);
         Assert.IsNotNull(result);
-        Assert.AreEqual(account.FirstName, result.FirstName);
+        Assert.IsInstanceOfType<ReadAccountDTO>(result);
+		Assert.AreEqual(account.FirstName, result.FirstName);
         Assert.AreEqual(account.LastName, result.LastName);
         Assert.AreEqual(account.ObjectId, result.ObjectId);
 	}
